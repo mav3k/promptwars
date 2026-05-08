@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Venture.ai - Logic Tests</title>
+    <style>
+        body { font-family: sans-serif; background: #f0f0f0; padding: 2rem; }
+        .test-case { background: white; padding: 1rem; margin-bottom: 1rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .pass { color: green; font-weight: bold; }
+        .fail { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>System Logic Tests</h1>
+    <div id="results">Running tests...</div>
+
+    <script type="module">
+        import { getWeightedActivity, state } from '../src/js/engine.js';
+        
+        const results = document.getElementById('results');
+        results.innerHTML = '';
+
+        function assert(condition, message) {
+            const div = document.createElement('div');
+            div.className = 'test-case';
+            div.innerHTML = `${message}: <span class="${condition ? 'pass' : 'fail'}">${condition ? 'PASS' : 'FAIL'}</span>`;
+            results.appendChild(div);
+        }
+
+        // Test 1: Weighted Activity Selection
+        const mockActivities = [
+            { name: 'Adventure 1', cat: 'Adventure', time: 'Morning' },
+            { name: 'Culture 1', cat: 'Cultural', time: 'Morning' }
+        ];
+        state.styles = ['Adventure'];
+        const selected = getWeightedActivity(mockActivities, 'Morning');
+        assert(selected.cat === 'Adventure' || selected.cat === 'Cultural', "Activity selection returns valid object");
+
+        // Test 2: State Integrity
+        assert(state.budget === 150000, "Default budget state is correct");
+
+        // Test 3: Data Object Validity
+        import { DESTINATIONS } from '../src/js/data.js';
+        assert(DESTINATIONS.Goa !== undefined, "Goa data is loaded correctly");
+        assert(DESTINATIONS.Paris.baseCosts.flight === 65000, "Paris flight costs are correct");
+
+    </script>
+</body>
+</html>
