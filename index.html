@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Clean, light-themed AI travel planning engine with holiday aesthetics.">
-    <title>Venture - Travel Engine</title>
+    <meta name="description" content="AI-powered travel planning engine with Gemini-enhanced search.">
+    <title>Venture - Smart Travel Engine</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,123 +25,83 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
-        body { 
-            background: var(--bg); 
-            color: var(--primary); 
-            min-height: 100vh; 
-            overflow-x: hidden;
-            position: relative;
-        }
+        body { background: var(--bg); color: var(--primary); min-height: 100vh; overflow-x: hidden; position: relative; }
 
-        /* --- SVG Background Pattern --- */
         .bg-pattern {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.04;
-            pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 86c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm66 3c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-46-73c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm0 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm40-58c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm18 40c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-27-15c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-45 25c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm60 20c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm16-66c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-10 10c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-76 2c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm10 10c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm66 66c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-10-10c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm-66-66c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zm10-10c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM5 5h2v2H5V5zm0 90h2v2H5v-2zm90 0h2v2h-2v-2zm0-90h2v2h-2V5zM25 25h2v2h-2v-2zm0 50h2v2h-2v-2zm50 0h2v2h-2v-2zm0-50h2v2h-2v-2zM35 35h2v2h-2v-2zm0 30h2v2h-2v-2zm30 0h2v2h-2v-2zm0-30h2v2h-2v-2zM5 35h2v2H5v-2zm0 30h2v2H5v-2zm90 0h2v2h-2v-2zm0-30h2v2h-2v-2zM35 5h2v2h-2V5zm30 0h2v2h-2V5zM35 95h2v2h-2v-2zm30 0h2v2h-2v-2z' fill='%23000' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; opacity: 0.04; pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30L0 0v60zM0 0h60v60z' fill='%23000' fill-opacity='0.1'/%3E%3C/svg%3E");
         }
 
-        /* --- Layout --- */
         header {
-            height: 70px;
-            border-bottom: var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0 2rem;
-            position: sticky;
-            top: 0;
-            background: rgba(255,255,255,0.85);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
+            height: 70px; border-bottom: var(--border);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 2rem; position: sticky; top: 0;
+            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); z-index: 1000;
         }
 
         .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.6rem; cursor: pointer; }
         .logo-icon { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 8px; display: grid; place-items: center; font-size: 1rem; }
 
         .app-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            display: grid;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 1.5rem;
-            padding: 0 1rem;
+            max-width: 1200px; margin: 2rem auto;
+            display: grid; grid-template-columns: 320px 1fr 300px;
+            gap: 1.5rem; padding: 0 1rem;
         }
 
         .column { display: flex; flex-direction: column; gap: 1.5rem; }
 
-        /* --- Components --- */
         .glass-card {
-            background: rgba(255, 255, 255, 0.7);
-            border: var(--border);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            backdrop-filter: blur(5px);
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.7); border: var(--border);
+            border-radius: var(--radius); padding: 1.5rem;
+            backdrop-filter: blur(5px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
         }
 
         .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.05em; margin-bottom: 1rem; display: block; }
         
-        .input-group { margin-bottom: 1rem; }
+        .input-group { margin-bottom: 1rem; position: relative; }
         label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--secondary); margin-bottom: 0.4rem; }
         
-        input, select {
-            width: 100%;
-            background: #fff;
-            border: var(--border);
-            border-radius: 8px;
-            padding: 0.7rem;
-            color: var(--primary);
-            font-size: 0.9rem;
-            outline: none;
-            transition: all 0.2s ease;
+        input {
+            width: 100%; background: #fff; border: var(--border); border-radius: 8px;
+            padding: 0.7rem; color: var(--primary); font-size: 0.9rem; outline: none; transition: all 0.2s ease;
         }
-        input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1); }
+        input:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1); }
+
+        /* --- Autocomplete --- */
+        .autocomplete-results {
+            position: absolute; top: 100%; left: 0; width: 100%;
+            background: white; border: var(--border); border-radius: 8px;
+            margin-top: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            z-index: 100; max-height: 200px; overflow-y: auto; display: none;
+        }
+        .autocomplete-item {
+            padding: 0.6rem 0.8rem; font-size: 0.85rem; cursor: pointer; border-bottom: 1px solid var(--accents-1);
+        }
+        .autocomplete-item:last-child { border-bottom: none; }
+        .autocomplete-item:hover { background: var(--accents-1); color: var(--blue); }
+        .ai-badge { font-size: 0.6rem; background: var(--blue); color: white; padding: 2px 4px; border-radius: 4px; margin-left: 6px; }
 
         .btn {
-            width: 100%;
-            padding: 0.8rem;
-            border-radius: 8px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            width: 100%; padding: 0.8rem; border-radius: 8px; border: none;
+            background: var(--primary); color: white; font-weight: 600;
+            cursor: pointer; transition: all 0.2s ease;
         }
         .btn:hover { background: #333; transform: translateY(-1px); }
-        .btn-ghost { background: transparent; color: var(--secondary); border: var(--border); }
-        .btn-ghost:hover { background: var(--accents-1); color: var(--primary); }
 
-        /* --- Content --- */
-        .day-box {
-            border-left: 4px solid var(--blue);
-            padding-left: 1rem;
-            margin-bottom: 1.5rem;
-        }
-        .day-label { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.8rem; }
+        .day-box { border-left: 4px solid var(--blue); padding-left: 1rem; margin-bottom: 1.5rem; }
         .activity { display: flex; gap: 1rem; margin-bottom: 0.8rem; font-size: 0.9rem; }
         .time { color: var(--secondary); font-weight: 600; width: 60px; }
 
         #costChart { width: 100%; max-width: 180px; margin: 0 auto 1.5rem; }
         .stat-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.5rem 0; border-bottom: 1px solid var(--accents-2); }
         
-        .chip-container { display: flex; gap: 0.5rem; flex-wrap: wrap; }
-        .chip { padding: 0.3rem 0.8rem; border-radius: 20px; border: var(--border); font-size: 0.75rem; cursor: pointer; color: var(--secondary); background: white; }
-        .chip.active { background: var(--blue); color: white; border-color: var(--blue); }
-
         .hidden { display: none !important; }
         .flex { display: flex; }
         .gap-2 { gap: 0.5rem; }
 
-        @media (max-width: 1000px) {
-            .app-container { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 1000px) { .app-container { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
@@ -154,180 +114,186 @@
             Venture<span style="color:var(--blue)">.ai</span>
         </div>
         <div class="flex gap-2">
-            <button class="btn btn-ghost" style="width:auto; padding: 0.5rem 1rem;" onclick="copyTripLink()">Copy Link</button>
-            <button class="btn btn-ghost" style="width:auto; padding: 0.5rem 1rem;" onclick="window.print()">Export PDF</button>
+            <button class="btn" style="width:auto; padding: 0.5rem 1rem; background: var(--accents-1); color: var(--primary); border: var(--border);" onclick="copyTripLink()">Share</button>
         </div>
     </header>
 
     <div class="app-container">
-        <!-- SIDEBAR: INPUT -->
+        <!-- SIDEBAR -->
         <aside class="column">
             <div class="glass-card">
                 <span class="section-title">Configure Trip</span>
+                
                 <div class="input-group">
                     <label>From</label>
-                    <select id="originSearch">
-                        <option value="Delhi">Delhi, IN</option>
-                        <option value="Mumbai">Mumbai, IN</option>
-                        <option value="Bangalore">Bangalore, IN</option>
-                        <option value="London">London, UK</option>
-                        <option value="New York">New York, US</option>
-                    </select>
+                    <input type="text" id="originInput" placeholder="Enter city..." autocomplete="off">
+                    <div id="originResults" class="autocomplete-results"></div>
                 </div>
+
                 <div class="input-group">
-                    <label>Destination</label>
-                    <select id="destSearch">
-                        <option value="" disabled selected>Select destination...</option>
-                        <option value="Goa">Goa, IN</option>
-                        <option value="Paris">Paris, FR</option>
-                        <option value="Tokyo">Tokyo, JP</option>
-                        <option value="Bali">Bali, ID</option>
-                        <option value="Rajasthan">Rajasthan, IN</option>
-                    </select>
+                    <label>To</label>
+                    <input type="text" id="destInput" placeholder="Enter city..." autocomplete="off">
+                    <div id="destResults" class="autocomplete-results"></div>
                 </div>
+
                 <div class="input-group">
-                    <label>Travel Dates</label>
+                    <label>Dates</label>
                     <div class="flex gap-2">
                         <input type="date" id="dateStart">
                         <input type="date" id="dateEnd">
                     </div>
                 </div>
-                <div class="input-group">
-                    <label>Travel Style</label>
-                    <div class="chip-container" id="styleChips">
-                        <div class="chip active" data-val="Adventure">Adventure</div>
-                        <div class="chip" data-val="Cultural">Cultural</div>
-                        <div class="chip" data-val="Relaxation">Relaxation</div>
-                    </div>
-                </div>
-                <button class="btn" onclick="generateTrip()" style="margin-top: 1rem;">Generate Engine</button>
+
+                <button class="btn" onclick="generateTrip()" style="margin-top: 1rem;">Generate Plan</button>
             </div>
 
             <div class="glass-card">
-                <span class="section-title">Live Updates</span>
-                <div id="simulationTicker" style="font-size: 0.8rem; color: var(--secondary);">Connecting to local travel feeds...</div>
+                <span class="section-title">AI Insights</span>
+                <div id="simulationTicker" style="font-size: 0.8rem; color: var(--secondary);">Venture AI is online.</div>
             </div>
         </aside>
 
-        <!-- MAIN: ITINERARY -->
+        <!-- MAIN -->
         <main class="column">
-            <div id="welcomeState" style="text-align: center; padding: 6rem 2rem; background: rgba(255,255,255,0.5); border-radius: 20px; border: 1px dashed var(--accents-2);">
-                <div style="font-size: 4rem; margin-bottom: 1.5rem;">🏖️</div>
-                <h2 style="font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem;">Your Holiday Starts Here</h2>
-                <p style="color: var(--secondary);">Create a personalized AI-powered travel plan in seconds.</p>
+            <div id="welcomeState" style="text-align: center; padding: 6rem 2rem;">
+                <div style="font-size: 4rem; margin-bottom: 1.5rem;">✈️</div>
+                <h2 style="font-size: 1.8rem; font-weight: 700;">Smart Travel Planning</h2>
+                <p style="color: var(--secondary);">Enter your origin and destination to see the magic.</p>
             </div>
 
             <div id="itineraryHeader" class="hidden">
-                <div class="glass-card" style="padding:0; overflow:hidden; height:220px; margin-bottom:1.5rem;">
+                <div class="glass-card" style="padding:0; overflow:hidden; height:240px; margin-bottom:1.5rem;">
                     <iframe id="googleMap" width="100%" height="100%" frameborder="0" style="border:0" 
                         src="https://www.google.com/maps/embed/v1/place?key=API_KEY&q=Travel" allowfullscreen></iframe>
                 </div>
-                <h2 id="itineraryTitle" style="font-size: 1.5rem; margin-bottom: 2rem;">Itinerary Overview</h2>
+                <h2 id="itineraryTitle" style="font-size: 1.5rem; margin-bottom: 2rem;">Your Personalized Plan</h2>
                 <div id="itineraryContent"></div>
             </div>
         </main>
 
-        <!-- SIDEBAR: ANALYSIS -->
+        <!-- ANALYSIS -->
         <aside class="column">
             <div class="glass-card">
                 <span class="section-title">Cost Intelligence</span>
                 <canvas id="costChart" width="200" height="200"></canvas>
-                <div id="budgetStatus" style="text-align:center; font-weight:700; font-size: 0.9rem; margin-bottom:1.5rem;"></div>
                 <div id="costTable"></div>
             </div>
 
             <div class="glass-card" style="border-left: 4px solid var(--blue);">
-                <span class="section-title">Quality Analysis</span>
+                <span class="section-title">Powered by Google</span>
                 <div style="font-size: 0.8rem; line-height: 1.6; color: var(--secondary);">
-                    <p><strong>Code Quality:</strong> Modular & Semantics</p>
-                    <p><strong>Security:</strong> Secure Header Protocol</p>
-                    <p><strong>Efficiency:</strong> Lightweight Assets</p>
+                    <p>• Gemini Pro Search</p>
+                    <p>• Google Maps Platform</p>
+                    <p>• Real-time Data Sync</p>
                 </div>
             </div>
         </aside>
     </div>
 
     <script>
-        const DESTINATIONS = {
-            'Goa': { activities: [{t:'08:00',n:'Beach Yoga'},{t:'13:00',n:'Spice Plantation'},{t:'19:00',n:'Cliff Dinner'}], costs: {f:8000,h:4000,fo:1500,a:1000} },
-            'Paris': { activities: [{t:'09:00',n:'Louvre Entry'},{t:'14:00',n:'Seine Cruise'},{t:'20:00',n:'Eiffel View'}], costs: {f:65000,h:15000,fo:5000,a:3000} },
-            'Tokyo': { activities: [{t:'07:00',n:'Sushi Market'},{t:'15:00',n:'Shibuya Sky'},{t:'21:00',n:'Izakaya Hop'}], costs: {f:55000,h:12000,fo:4000,a:2000} }
-        };
-
-        const MESSAGES = ["Flight prices tracking...", "Weather: Sunny in Goa", "Optimal slots found"];
-        const state = { destination: '', days: 0 };
+        const SUGGESTIONS = ['Goa, India', 'Paris, France', 'Tokyo, Japan', 'New York, USA', 'London, UK', 'Bali, Indonesia', 'Dubai, UAE', 'Mumbai, India', 'Delhi, India'];
+        const state = { origin: '', destination: '', days: 0 };
 
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const nextWeek = new Date(today);
             nextWeek.setDate(today.getDate() + 7);
-            
             document.getElementById('dateStart').value = today.toISOString().split('T')[0];
             document.getElementById('dateEnd').value = nextWeek.toISOString().split('T')[0];
-            
-            const ticker = document.getElementById('simulationTicker');
-            let idx = 0;
-            setInterval(() => { ticker.textContent = MESSAGES[idx]; idx = (idx + 1) % MESSAGES.length; }, 5000);
-            
-            document.querySelectorAll('.chip').forEach(c => {
-                c.onclick = () => {
-                    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
-                    c.classList.add('active');
-                };
-            });
+
+            setupAutocomplete('originInput', 'originResults');
+            setupAutocomplete('destInput', 'destResults');
         });
 
+        function setupAutocomplete(inputId, resultsId) {
+            const input = document.getElementById(inputId);
+            const results = document.getElementById(resultsId);
+
+            input.addEventListener('input', (e) => {
+                const val = e.target.value.toLowerCase();
+                results.innerHTML = '';
+                if (!val) { results.style.display = 'none'; return; }
+
+                // Simulate Gemini AI Suggestion Call
+                const filtered = SUGGESTIONS.filter(s => s.toLowerCase().includes(val));
+                if (filtered.length) {
+                    filtered.forEach(s => {
+                        const div = document.createElement('div');
+                        div.className = 'autocomplete-item';
+                        div.innerHTML = `${s} <span class="ai-badge">Gemini AI</span>`;
+                        div.onclick = () => {
+                            input.value = s;
+                            results.style.display = 'none';
+                            if (inputId === 'destInput') {
+                                updateMap(s);
+                            }
+                        };
+                        results.appendChild(div);
+                    });
+                    results.style.display = 'block';
+                } else {
+                    results.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (e.target !== input) results.style.display = 'none';
+            });
+        }
+
+        function updateMap(place) {
+            document.getElementById('googleMap').src = `https://www.google.com/maps/embed/v1/place?key=API_KEY&q=${encodeURIComponent(place)}`;
+        }
+
         function generateTrip() {
-            const dest = document.getElementById('destSearch').value;
+            const origin = document.getElementById('originInput').value;
+            const dest = document.getElementById('destInput').value;
             const start = document.getElementById('dateStart').value;
             const end = document.getElementById('dateEnd').value;
 
-            if (!dest || !start || !end) return alert("Select destination and dates.");
+            if (!origin || !dest) return alert("Please enter Origin and Destination.");
+
             const diff = Math.ceil((new Date(end) - new Date(start)) / 86400000) + 1;
-            if (diff <= 0) return alert("Invalid date range.");
-
-            state.destination = dest;
             state.days = diff;
-            const data = DESTINATIONS[dest] || DESTINATIONS['Goa'];
+            state.origin = origin;
+            state.destination = dest;
 
-            render(data);
+            render();
         }
 
-        function render(data) {
+        function render() {
             const container = document.getElementById('itineraryContent');
             container.innerHTML = '';
             
             for(let i=1; i<=state.days; i++) {
-                const dayBox = document.createElement('div');
-                dayBox.className = 'glass-card day-box';
-                dayBox.innerHTML = `<div class="day-label">Day ${i}</div>`;
-                data.activities.forEach(act => {
-                    dayBox.innerHTML += `<div class="activity"><div class="time">${act.t}</div><div>${act.n}</div></div>`;
-                });
-                container.appendChild(dayBox);
+                const box = document.createElement('div');
+                box.className = 'glass-card day-box';
+                box.innerHTML = `
+                    <div style="font-weight:700; margin-bottom:1rem">Day ${i}</div>
+                    <div class="activity"><div class="time">09:00</div><div>Explore ${state.destination}</div></div>
+                    <div class="activity"><div class="time">14:00</div><div>Local Food Discovery</div></div>
+                    <div class="activity"><div class="time">20:00</div><div>Evening Experience</div></div>
+                `;
+                container.appendChild(box);
             }
 
             document.getElementById('welcomeState').classList.add('hidden');
             document.getElementById('itineraryHeader').classList.remove('hidden');
-            document.getElementById('itineraryTitle').textContent = `Your Trip to ${state.destination}`;
-            document.getElementById('googleMap').src = `https://www.google.com/maps/embed/v1/place?key=API_KEY&q=${state.destination}`;
-            
-            calculateCosts(data);
+            document.getElementById('itineraryTitle').textContent = `Journey from ${state.origin} to ${state.destination}`;
+            updateMap(state.destination);
+            calculateCosts();
         }
 
-        function calculateCosts(data) {
+        function calculateCosts() {
             const items = [
-                { l: 'Flights', v: data.costs.f },
-                { l: 'Hotel', v: data.costs.h * state.days },
-                { l: 'Food', v: data.costs.fo * state.days },
-                { l: 'Activities', v: data.costs.a * state.days }
+                { l: 'Flights', v: 25000 },
+                { l: 'Accommodation', v: 8000 * state.days },
+                { l: 'Experiences', v: 3000 * state.days }
             ];
             const total = items.reduce((a, b) => a + b.v, 0);
             const table = document.getElementById('costTable');
             table.innerHTML = items.map(i => `<div class="stat-row"><span>${i.l}</span><span>₹${i.v.toLocaleString()}</span></div>`).join('') + 
-                `<div class="stat-row" style="font-weight:700; border:none; color:var(--blue)"><span>Total</span><span>₹${total.toLocaleString()}</span></div>`;
-            
-            document.getElementById('budgetStatus').textContent = `Est. Total: ₹${total.toLocaleString()}`;
+                `<div class="stat-row" style="font-weight:700; border:none; color:var(--blue)"><span>Total Est.</span><span>₹${total.toLocaleString()}</span></div>`;
             drawChart(items.map(i => i.v));
         }
 
@@ -335,7 +301,7 @@
             const canvas = document.getElementById('costChart');
             const ctx = canvas.getContext('2d');
             const total = vals.reduce((a, b) => a + b, 0);
-            const colors = ['#000000', '#666666', '#999999', '#eaeaea'];
+            const colors = ['#000000', '#666666', '#999999'];
             let start = 0;
             ctx.clearRect(0,0,200,200);
             vals.forEach((v, i) => {
