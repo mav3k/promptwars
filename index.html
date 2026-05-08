@@ -535,9 +535,9 @@
                 <button class="cta-btn" onclick="generateTrip()">Generate Engine</button>
             </section>
 
-            <section class="glass-panel">
-                <h3>Live Network Feed</h3>
-                <div class="ticker-container" id="simulationTicker">
+            <section class="glass-panel" aria-labelledby="network-feed-title">
+                <h3 id="network-feed-title">Live Network Feed</h3>
+                <div class="ticker-container" id="simulationTicker" aria-live="polite">
                     <!-- Ticker content injected by JS -->
                 </div>
             </section>
@@ -553,7 +553,7 @@
                         Regenerate
                     </button>
                 </div>
-                <div class="itinerary-grid" id="itineraryContent">
+                <div class="itinerary-grid" id="itineraryContent" role="region" aria-label="Trip Itinerary">
                     <!-- Cards generated here -->
                 </div>
             </div>
