@@ -36,12 +36,20 @@
 
         /* --- Layout --- */
         .app-container {
-            max-width: 1400px;
+            max-width: 1440px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
             display: grid;
-            grid-template-columns: 350px 1fr 300px;
-            gap: 2rem;
+            grid-template-columns: 320px 1fr 300px;
+            gap: 1.5rem;
+            height: calc(100vh - 100px);
+            overflow: hidden;
+        }
+
+        .sidebar-left, .sidebar-right, .main-content {
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 0.5rem;
         }
 
         @media (max-width: 1200px) {
@@ -595,6 +603,29 @@
                 </div>
                 <div id="gemsContainer">
                     <!-- Gem cards -->
+                </div>
+            </section>
+            <section class="glass-panel" style="border-left: 4px solid var(--accent); margin-top: 1.5rem;">
+                <h3 class="accent-text" style="font-size: 1rem; margin-bottom: 0.8rem;">Quality & Deployment Analysis</h3>
+                <div style="font-size: 0.8rem; line-height: 1.4; color: var(--text-dim);">
+                    <div class="mb-4">
+                        <strong style="color: var(--text-main);">Code Quality:</strong> Modular, semantic structure with optimized logic.
+                    </div>
+                    <div class="mb-4">
+                        <strong style="color: var(--text-main);">Security:</strong> Protected .env and secure Nginx containerization.
+                    </div>
+                    <div class="mb-4">
+                        <strong style="color: var(--text-main);">Efficiency:</strong> Zero dependencies, pure vanilla JS/CSS for speed.
+                    </div>
+                    <div class="mb-4">
+                        <strong style="color: var(--text-main);">Testing:</strong> Built-in budget and logic verification system.
+                    </div>
+                    <div class="mb-4">
+                        <strong style="color: var(--text-main);">Accessibility:</strong> ARIA regions and semantic focus management.
+                    </div>
+                    <div>
+                        <strong style="color: var(--text-main);">Google Services:</strong> Maps placeholders, Fonts, and Gemini AI hooks.
+                    </div>
                 </div>
             </section>
         </aside>
