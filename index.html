@@ -311,7 +311,14 @@
                         if (preds) renderAC(preds.map(p => p.description), input);
                     });
                 } else {
-                    const mock = ['Paris, France', 'London, UK', 'New York, USA', 'Tokyo, Japan', 'Delhi, India', 'Mumbai, India', 'Goa, India'].filter(s => s.toLowerCase().includes(val.toLowerCase()));
+                    const mock = [
+                        'New York, USA', 'London, UK', 'Paris, France', 'Tokyo, Japan', 'Dubai, UAE', 'Singapore', 'Delhi, India', 'Mumbai, India', 'Sydney, Australia', 'Berlin, Germany', 
+                        'Rome, Italy', 'Madrid, Spain', 'Hong Kong', 'San Francisco, USA', 'Los Angeles, USA', 'Chicago, USA', 'Toronto, Canada', 'Vancouver, Canada', 'Istanbul, Turkey', 'Amsterdam, Netherlands', 
+                        'Zurich, Switzerland', 'Vienna, Austria', 'Seoul, South Korea', 'Shanghai, China', 'Beijing, China', 'Bangkok, Thailand', 'Kuala Lumpur, Malaysia', 'Jakarta, Indonesia', 'Johannesburg, South Africa', 'Cairo, Egypt',
+                        'Goa, India', 'Bali, Indonesia', 'Maldives', 'Santorini, Greece', 'Venice, Italy', 'Kyoto, Japan', 'Machu Picchu, Peru', 'Cape Town, South Africa', 'Rio de Janeiro, Brazil', 'Barcelona, Spain', 
+                        'Prague, Czech Republic', 'Edinburgh, UK', 'Reykjavik, Iceland', 'Queenstown, New Zealand', 'Bora Bora, French Polynesia', 'Maui, USA', 'Phuket, Thailand', 'Siem Reap, Cambodia', 'Petra, Jordan', 'Marrakesh, Morocco', 
+                        'Dubrovnik, Croatia', 'Florence, Italy', 'Amalfi Coast, Italy', 'Swiss Alps, Switzerland', 'Jasper, Canada', 'Banff, Canada', 'Yosemite, USA', 'Grand Canyon, USA', 'Great Barrier Reef, Australia', 'Lisbon, Portugal'
+                    ].filter(s => s.toLowerCase().includes(val.toLowerCase()));
                     renderAC(mock, input);
                 }
             });
