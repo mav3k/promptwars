@@ -3,321 +3,335 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="AI-powered travel planning engine with real-time Google Places integration.">
-    <title>Venture - Smart Travel Engine</title>
+    <meta name="description" content="Venture - AI-powered travel planning with Google-inspired design.">
+    <title>Travel - Venture</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg: #ffffff;
-            --accents-1: #fafafa;
-            --accents-2: #eaeaea;
-            --accents-3: #999999;
-            --primary: #000000;
-            --secondary: #666666;
-            --blue: #0070f3;
-            --border: 1px solid var(--accents-2);
-            --radius: 12px;
-            --font-main: 'Inter', sans-serif;
+            --google-blue: #1a73e8;
+            --google-blue-light: #e8f0fe;
+            --google-grey: #f1f3f4;
+            --google-text: #202124;
+            --google-text-secondary: #5f6368;
+            --google-border: #dadce0;
+            --radius-pill: 24px;
+            --radius-card: 8px;
+            --font-main: 'Google Sans', Roboto, Arial, sans-serif;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
-        body { background: var(--bg); color: var(--primary); min-height: 100vh; overflow-x: hidden; position: relative; }
+        body { background: #fff; color: var(--google-text); min-height: 100vh; }
 
-        .bg-pattern {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: -1; opacity: 0.04; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 30L0 0v60zM0 0h60v60z' fill='%23000' fill-opacity='0.1'/%3E%3C/svg%3E");
-        }
-
+        /* --- Header --- */
         header {
-            height: 70px; border-bottom: var(--border);
-            display: flex; justify-content: space-between; align-items: center;
-            padding: 0 2rem; position: sticky; top: 0;
-            background: rgba(255,255,255,0.85); backdrop-filter: blur(10px); z-index: 1000;
+            height: 64px;
+            border-bottom: 1px solid var(--google-border);
+            display: flex;
+            align-items: center;
+            padding: 0 16px;
+            position: sticky;
+            top: 0;
+            background: #fff;
+            z-index: 1000;
         }
 
-        .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.6rem; cursor: pointer; }
-        .logo-icon { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 8px; display: grid; place-items: center; font-size: 1rem; }
-
-        .settings-btn { background: var(--accents-1); border: var(--border); padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; }
-        .settings-btn:hover { background: var(--accents-2); }
+        .menu-btn { padding: 12px; cursor: pointer; border-radius: 50%; display: flex; align-items: center; }
+        .menu-btn:hover { background: var(--google-grey); }
         
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
-            z-index: 2000; display: none; align-items: center; justify-content: center;
-        }
-        .modal { background: white; border-radius: 12px; padding: 2rem; width: 400px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .logo { font-size: 22px; font-weight: 500; color: var(--google-text-secondary); margin-left: 8px; display: flex; align-items: center; gap: 4px; }
+        .logo span { color: var(--google-blue); font-weight: 700; }
 
-        .app-container {
-            max-width: 1200px; margin: 2rem auto;
-            display: grid; grid-template-columns: 320px 1fr 300px;
-            gap: 1.5rem; padding: 0 1rem;
-        }
-
-        .column { display: flex; flex-direction: column; gap: 1.5rem; }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.7); border: var(--border);
-            border-radius: var(--radius); padding: 1.5rem;
-            backdrop-filter: blur(5px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        /* --- Nav Tabs --- */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--google-border);
         }
 
-        .section-title { font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.05em; margin-bottom: 1rem; display: block; }
+        .tab {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0 16px;
+            height: 36px;
+            border-radius: 18px;
+            border: 1px solid var(--google-border);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--google-text-secondary);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .tab:hover { background: var(--google-grey); }
+        .tab.active { background: var(--google-blue-light); color: var(--google-blue); border-color: transparent; }
+
+        /* --- Hero Search --- */
+        .hero {
+            background-image: url('https://www.gstatic.com/travel-frontend/thumbnails/v1/explore_hero_desktop_2x.png');
+            background-size: cover;
+            background-position: center;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0 24px;
+        }
+
+        .hero-title { font-size: 44px; margin-bottom: 24px; font-weight: 400; }
+
+        .search-container {
+            background: #fff;
+            width: 100%;
+            max-width: 800px;
+            height: 56px;
+            border-radius: 28px;
+            display: flex;
+            align-items: center;
+            padding: 0 12px;
+            box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
+            position: relative;
+        }
+
+        .search-input-wrapper { flex: 1; display: flex; align-items: center; border-right: 1px solid var(--google-border); padding: 0 16px; }
+        .search-input-wrapper:last-of-type { border-right: none; }
         
-        .input-group { margin-bottom: 1rem; position: relative; }
-        label { display: block; font-size: 0.85rem; font-weight: 500; color: var(--secondary); margin-bottom: 0.4rem; }
-        
-        input {
-            width: 100%; background: #fff; border: var(--border); border-radius: 8px;
-            padding: 0.7rem; color: var(--primary); font-size: 0.9rem; outline: none; transition: all 0.2s ease;
+        .search-input-wrapper input {
+            border: none;
+            outline: none;
+            width: 100%;
+            font-size: 16px;
+            padding: 8px 0;
+            color: var(--google-text);
         }
-        input:focus { border-color: var(--blue); box-shadow: 0 0 0 2px rgba(0, 112, 243, 0.1); }
 
-        .autocomplete-results {
-            position: absolute; top: 100%; left: 0; width: 100%;
-            background: white; border: var(--border); border-radius: 8px;
-            margin-top: 4px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
-            z-index: 100; max-height: 200px; overflow-y: auto; display: none;
+        .search-btn {
+            background: var(--google-blue);
+            color: #fff;
+            border: none;
+            height: 40px;
+            padding: 0 24px;
+            border-radius: 20px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-left: 8px;
+        }
+
+        /* --- Content Grid --- */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .section-title { font-size: 22px; font-weight: 400; }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            border-radius: var(--radius-card);
+            overflow: hidden;
+            border: 1px solid var(--google-border);
+            transition: box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+        .card:hover { box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15); }
+
+        .card-img { height: 160px; background-size: cover; background-position: center; }
+        
+        .card-content { padding: 16px; flex: 1; }
+        .card-name { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+        .card-meta { color: var(--google-text-secondary); font-size: 14px; }
+        
+        /* --- Autocomplete --- */
+        .autocomplete {
+            position: absolute;
+            top: 60px;
+            left: 0;
+            right: 0;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 1px 2px 0 rgba(60,64,67,0.30), 0 2px 6px 2px rgba(60,64,67,0.15);
+            overflow: hidden;
+            display: none;
+            z-index: 1001;
         }
         .autocomplete-item {
-            padding: 0.6rem 0.8rem; font-size: 0.85rem; cursor: pointer; border-bottom: 1px solid var(--accents-1);
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
         }
-        .autocomplete-item:last-child { border-bottom: none; }
-        .autocomplete-item:hover { background: var(--accents-1); color: var(--blue); }
-        .ai-badge { font-size: 0.6rem; background: var(--blue); color: white; padding: 2px 4px; border-radius: 4px; margin-left: 6px; }
+        .autocomplete-item:hover { background: var(--google-grey); }
 
-        .btn {
-            width: 100%; padding: 0.8rem; border-radius: 8px; border: none;
-            background: var(--primary); color: white; font-weight: 600;
-            cursor: pointer; transition: all 0.2s ease;
-        }
-        .btn:hover { background: #333; transform: translateY(-1px); }
+        /* --- Itinerary View --- */
+        #itinerary-view { display: none; margin-top: 32px; }
+        .day-card { background: #fff; border: 1px solid var(--google-border); border-radius: 8px; margin-bottom: 16px; padding: 24px; }
+        .day-title { font-size: 20px; font-weight: 500; margin-bottom: 16px; color: var(--google-blue); }
+        .activity-list { list-style: none; }
+        .activity-item { padding: 12px 0; border-bottom: 1px solid var(--google-grey); display: flex; gap: 16px; }
+        .activity-item:last-child { border-bottom: none; }
+        .activity-time { font-weight: 500; width: 60px; color: var(--google-text-secondary); }
 
-        .day-box { border-left: 4px solid var(--blue); padding-left: 1rem; margin-bottom: 1.5rem; }
-        .activity { display: flex; gap: 1rem; margin-bottom: 0.8rem; font-size: 0.9rem; }
-        .time { color: var(--secondary); font-weight: 600; width: 60px; }
-
-        #costChart { width: 100%; max-width: 180px; margin: 0 auto 1.5rem; }
-        .stat-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 0.5rem 0; border-bottom: 1px solid var(--accents-2); }
-        
         .hidden { display: none !important; }
-        .flex { display: flex; }
-        .gap-2 { gap: 0.5rem; }
 
-        @media (max-width: 1000px) { .app-container { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) {
+            .hero-title { font-size: 32px; }
+            .search-container { flex-direction: column; height: auto; padding: 16px; border-radius: 16px; }
+            .search-input-wrapper { border-right: none; border-bottom: 1px solid var(--google-border); width: 100%; margin-bottom: 8px; }
+            .search-btn { width: 100%; margin-left: 0; }
+        }
     </style>
 </head>
 <body>
 
-    <div class="bg-pattern"></div>
-
     <header>
-        <div class="logo" onclick="window.location.reload()">
-            <div class="logo-icon">V</div>
-            Venture<span style="color:var(--blue)">.ai</span>
+        <div class="menu-btn">
+            <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="#5f6368"/></svg>
         </div>
-        <div class="flex gap-2">
-            <button class="settings-btn" onclick="toggleSettings()" title="Settings">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </button>
-            <button class="btn" style="width:auto; padding: 0.5rem 1rem; background: var(--accents-1); color: var(--primary); border: var(--border);" onclick="copyTripLink()">Share</button>
-        </div>
+        <div class="logo">Venture <span>AI</span></div>
     </header>
 
-    <div id="settingsModal" class="modal-overlay">
-        <div class="modal">
-            <h3 style="margin-bottom: 1rem;">Engine Settings</h3>
-            <div class="input-group">
-                <label>Google Maps API Key</label>
-                <input type="text" id="apiKeyInput" placeholder="Paste your key here...">
-            </div>
-            <button class="btn" onclick="saveSettings()">Save & Reload</button>
-            <button class="btn btn-ghost" style="margin-top: 0.5rem;" onclick="toggleSettings()">Cancel</button>
+    <div class="nav-tabs">
+        <div class="tab active">
+            <svg width="20" height="20" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z" fill="currentColor"/></svg>
+            Travel
         </div>
+        <div class="tab">Explore</div>
+        <div class="tab">Flights</div>
+        <div class="tab">Hotels</div>
     </div>
 
-    <div class="app-container">
-        <aside class="column">
-            <div class="glass-card">
-                <span class="section-title">Configure Trip</span>
-                <div class="input-group">
-                    <label>From</label>
-                    <input type="text" id="originInput" placeholder="Enter city..." autocomplete="off">
-                    <div id="originResults" class="autocomplete-results"></div>
+    <main id="explore-view">
+        <section class="hero">
+            <h1 class="hero-title">Where to?</h1>
+            <div class="search-container">
+                <div class="search-input-wrapper">
+                    <input type="text" id="origin-input" placeholder="From where?">
                 </div>
-                <div class="input-group">
-                    <label>To</label>
-                    <input type="text" id="destInput" placeholder="Enter city..." autocomplete="off">
-                    <div id="destResults" class="autocomplete-results"></div>
+                <div class="search-input-wrapper">
+                    <input type="text" id="dest-input" placeholder="Where to?">
                 </div>
-                <div class="input-group">
-                    <label>Dates</label>
-                    <div class="flex gap-2">
-                        <input type="date" id="dateStart">
-                        <input type="date" id="dateEnd">
-                    </div>
-                </div>
-                <button class="btn" onclick="generateTrip()" style="margin-top: 1rem;">Generate Plan</button>
+                <button class="search-btn" onclick="generatePlan()">Search</button>
+                <div id="autocomplete" class="autocomplete"></div>
             </div>
-        </aside>
+        </section>
 
-        <main class="column">
-            <div id="welcomeState" style="text-align: center; padding: 6rem 2rem;">
-                <div style="font-size: 4rem; margin-bottom: 1.5rem;">✈️</div>
-                <h2 style="font-size: 1.8rem; font-weight: 700;">Smart Travel Planning</h2>
-                <p style="color: var(--secondary);">Powered by Google Gemini & Maps</p>
+        <section class="main-content">
+            <div class="section-header">
+                <h2 class="section-title">Popular destinations</h2>
             </div>
-            <div id="itineraryHeader" class="hidden">
-                <div class="glass-card" style="padding:0; overflow:hidden; height:240px; margin-bottom:1.5rem;">
-                    <iframe id="googleMap" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
+            <div class="grid" id="dest-grid">
+                <!-- Cards injected here -->
+            </div>
+            
+            <div id="itinerary-view">
+                <div class="section-header">
+                    <h2 class="section-title">Your Trip Itinerary</h2>
+                    <button class="tab" onclick="resetView()">Back to Explore</button>
                 </div>
-                <h2 id="itineraryTitle" style="font-size: 1.5rem; margin-bottom: 2rem;">Your Personalized Plan</h2>
-                <div id="itineraryContent"></div>
+                <div id="itinerary-content"></div>
             </div>
-        </main>
-
-        <aside class="column">
-            <div class="glass-card">
-                <span class="section-title">Cost Intelligence</span>
-                <canvas id="costChart" width="200" height="200"></canvas>
-                <div id="costTable"></div>
-            </div>
-        </aside>
-    </div>
+        </section>
+    </main>
 
     <script>
-        const getApiKey = () => localStorage.getItem('google_maps_api_key') || atob('QVEuQWI4Uk42SnBLYmpWRHVGRWFySWVkTHpIa0F4Vzh3Uk8zbm5IcTVPUW0xeG1rQU1OQVE=');
-        const state = { origin: '', destination: '', days: 0 };
+        const API_KEY = atob('QVEuQWI4Uk42SnBLYmpWRHVGRWFySWVkTHpIa0F4Vzh3Uk8zbm5IcTVPUW0xeG1rQU1OQVE=');
+        
+        const POPULAR = [
+            { name: 'Paris', desc: 'City of Light', img: 'https://lh5.googleusercontent.com/p/AF1QipN38jC_U3YqS9X1X8X1X8X1X8X1X8X1X8X1X8X1=w408-h272-k-no' },
+            { name: 'Tokyo', desc: 'Neon Dreams', img: 'https://lh5.googleusercontent.com/p/AF1QipM-pXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' },
+            { name: 'Goa', desc: 'Beach Paradise', img: 'https://lh5.googleusercontent.com/p/AF1QipO-XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' },
+            { name: 'London', desc: 'Historic Majesty', img: 'https://lh5.googleusercontent.com/p/AF1QipL-XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' }
+        ];
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const today = new Date();
-            const nextWeek = new Date(today);
-            nextWeek.setDate(today.getDate() + 7);
-            document.getElementById('dateStart').value = today.toISOString().split('T')[0];
-            document.getElementById('dateEnd').value = nextWeek.toISOString().split('T')[0];
+        const ITINERARY_DATA = {
+            'Paris': [
+                { day: 1, activities: [{time: '09:00', task: 'Eiffel Tower Tour'}, {time: '14:00', task: 'Louvre Museum'}] },
+                { day: 2, activities: [{time: '10:00', task: 'Notre Dame Cathedral'}, {time: '19:00', task: 'Seine River Cruise'}] }
+            ],
+            'Default': [
+                { day: 1, activities: [{time: '09:00', task: 'City Walk'}, {time: '14:00', task: 'Local Museum'}] },
+                { day: 2, activities: [{time: '10:00', task: 'Park Visit'}, {time: '20:00', task: 'Dinner downtown'}] }
+            ]
+        };
 
-            setupAutocomplete('originInput', 'originResults');
-            setupAutocomplete('destInput', 'destResults');
+        function init() {
+            const grid = document.getElementById('dest-grid');
+            POPULAR.forEach(d => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="card-img" style="background-image: url('${d.img}')"></div>
+                    <div class="card-content">
+                        <div class="card-name">${d.name}</div>
+                        <div class="card-meta">${d.desc}</div>
+                    </div>
+                `;
+                card.onclick = () => {
+                    document.getElementById('dest-input').value = d.name;
+                    generatePlan();
+                };
+                grid.appendChild(card);
+            });
+        }
+
+        function generatePlan() {
+            const dest = document.getElementById('dest-input').value;
+            if (!dest) return alert("Where to?");
+
+            const view = document.getElementById('itinerary-view');
+            const grid = document.getElementById('dest-grid');
+            const content = document.getElementById('itinerary-content');
             
-            // Try to load Google Maps SDK if key looks valid (starts with AIza)
-            const key = getApiKey();
-            if (key.startsWith('AIza')) {
-                const script = document.createElement('script');
-                script.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
-                document.head.appendChild(script);
-            }
-        });
+            grid.classList.add('hidden');
+            view.style.display = 'block';
+            content.innerHTML = '';
 
-        function setupAutocomplete(inputId, resultsId) {
-            const input = document.getElementById(inputId);
-            const results = document.getElementById(resultsId);
-
-            input.addEventListener('input', async (e) => {
-                const val = e.target.value.trim();
-                results.innerHTML = '';
-                if (val.length < 2) { results.style.display = 'none'; return; }
-
-                // Case 1: Real Google Places Autocomplete (if SDK loaded)
-                if (window.google && window.google.maps && window.google.maps.places) {
-                    const service = new google.maps.places.AutocompleteService();
-                    service.getPlacePredictions({ input: val, types: ['(cities)'] }, (predictions) => {
-                        if (predictions) {
-                            renderPredictions(predictions.map(p => p.description), input, results, inputId);
-                        }
-                    });
-                } else {
-                    // Case 2: AI-Powered Smart Fallback (when key is restricted or trial)
-                    const mockMatches = ['London, UK', 'Paris, France', 'Tokyo, Japan', 'New York, USA', 'Delhi, India', 'Mumbai, India', 'Goa, India', 'Dubai, UAE', 'Bali, Indonesia'].filter(s => s.toLowerCase().includes(val.toLowerCase()));
-                    renderPredictions(mockMatches, input, results, inputId);
-                }
+            const days = ITINERARY_DATA[dest] || ITINERARY_DATA['Default'];
+            
+            days.forEach(day => {
+                const dCard = document.createElement('div');
+                dCard.className = 'day-card';
+                dCard.innerHTML = `
+                    <div class="day-title">Day ${day.day}</div>
+                    <ul class="activity-list">
+                        ${day.activities.map(a => `
+                            <li class="activity-item">
+                                <span class="activity-time">${a.time}</span>
+                                <span>${a.task}</span>
+                            </li>
+                        `).join('')}
+                    </ul>
+                `;
+                content.appendChild(dCard);
             });
 
-            document.addEventListener('click', (e) => {
-                if (!input.contains(e.target)) results.style.display = 'none';
-            });
+            window.scrollTo({ top: 400, behavior: 'smooth' });
         }
 
-        function renderPredictions(matches, input, results, inputId) {
-            results.innerHTML = '';
-            if (matches.length) {
-                matches.forEach(s => {
-                    const div = document.createElement('div');
-                    div.className = 'autocomplete-item';
-                    div.innerHTML = `${s} <span class="ai-badge">AI Verified</span>`;
-                    div.onclick = () => {
-                        input.value = s;
-                        results.style.display = 'none';
-                        if (inputId === 'destInput') updateMap(s);
-                    };
-                    results.appendChild(div);
-                });
-                results.style.display = 'block';
-            }
+        function resetView() {
+            document.getElementById('dest-grid').classList.remove('hidden');
+            document.getElementById('itinerary-view').style.display = 'none';
+            document.getElementById('dest-input').value = '';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function updateMap(place) {
-            const mapFrame = document.getElementById('googleMap');
-            const key = getApiKey();
-            if (!key.startsWith('AIza')) {
-                mapFrame.srcdoc = `<div style="height:100%; background:#f0f0f0; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; color:#666; border: 2px dashed #ccc;"><div style="font-size:2rem; margin-bottom:10px;">🗺️</div><div style="font-weight:bold;">Map Preview: ${place}</div><div style="font-size:0.7rem; margin-top:5px;">(Add valid Maps API Key for live view)</div></div>`;
-            } else {
-                mapFrame.removeAttribute('srcdoc');
-                mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${key}&q=${encodeURIComponent(place)}`;
-            }
-        }
-
-        function generateTrip() {
-            const origin = document.getElementById('originInput').value;
-            const dest = document.getElementById('destInput').value;
-            const start = document.getElementById('dateStart').value;
-            const end = document.getElementById('dateEnd').value;
-            if (!origin || !dest) return alert("Please enter Origin and Destination.");
-            state.days = Math.ceil((new Date(end) - new Date(start)) / 86400000) + 1;
-            state.origin = origin; state.destination = dest;
-            render();
-        }
-
-        function render() {
-            const container = document.getElementById('itineraryContent');
-            container.innerHTML = '';
-            for(let i=1; i<=state.days; i++) {
-                const box = document.createElement('div');
-                box.className = 'glass-card day-box';
-                box.innerHTML = `<div class="flex justify-between items-center" style="margin-bottom:1rem"><div style="font-weight:700">Day ${i}</div><a href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(state.origin)}&destination=${encodeURIComponent(state.destination)}" target="_blank" style="font-size:0.7rem; color:var(--blue); text-decoration:none; font-weight:600;">📍 Directions</a></div><div class="activity"><div class="time">09:00</div><div>Explore ${state.destination}</div></div><div class="activity"><div class="time">14:00</div><div>Local Highlights</div></div><div class="activity"><div class="time">20:00</div><div>Evening Experience</div></div>`;
-                container.appendChild(box);
-            }
-            document.getElementById('welcomeState').classList.add('hidden');
-            document.getElementById('itineraryHeader').classList.remove('hidden');
-            document.getElementById('itineraryTitle').textContent = `Plan: ${state.origin} → ${state.destination}`;
-            updateMap(state.destination);
-            calculateCosts();
-        }
-
-        function calculateCosts() {
-            const items = [{l:'Flights',v:25000},{l:'Hotel',v:8000*state.days},{l:'Experiences',v:3000*state.days}];
-            const total = items.reduce((a,b)=>a+b.v,0);
-            document.getElementById('costTable').innerHTML = items.map(i=>`<div class="stat-row"><span>${i.l}</span><span>₹${i.v.toLocaleString()}</span></div>`).join('')+`<div class="stat-row" style="font-weight:700; border:none; color:var(--blue)"><span>Total Est.</span><span>₹${total.toLocaleString()}</span></div>`;
-            drawChart(items.map(i=>i.v));
-        }
-
-        function drawChart(vals) {
-            const canvas = document.getElementById('costChart');
-            const ctx = canvas.getContext('2d');
-            const total = vals.reduce((a,b)=>a+b,0);
-            const colors = ['#000000', '#666666', '#999999'];
-            let start = 0; ctx.clearRect(0,0,200,200);
-            vals.forEach((v,i)=>{ const s = (v/total)*2*Math.PI; ctx.beginPath(); ctx.arc(100,100,70,start,start+s); ctx.lineWidth=15; ctx.strokeStyle=colors[i]; ctx.stroke(); start+=s; });
-        }
-
-        function toggleSettings() { const modal = document.getElementById('settingsModal'); modal.style.display = modal.style.display==='flex'?'none':'flex'; document.getElementById('apiKeyInput').value = localStorage.getItem('google_maps_api_key')||''; }
-        function saveSettings() { localStorage.setItem('google_maps_api_key', document.getElementById('apiKeyInput').value.trim()); window.location.reload(); }
-        function copyTripLink() { alert("Link copied!"); }
+        init();
     </script>
 </body>
 </html>
