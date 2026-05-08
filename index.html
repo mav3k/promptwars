@@ -44,6 +44,21 @@
         .logo { font-size: 1.4rem; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 0.6rem; cursor: pointer; }
         .logo-icon { width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 8px; display: grid; place-items: center; font-size: 1rem; }
 
+        /* --- Settings Panel --- */
+        .settings-btn {
+            background: var(--accents-1); border: var(--border); padding: 0.5rem; border-radius: 8px; cursor: pointer; transition: all 0.2s ease;
+        }
+        .settings-btn:hover { background: var(--accents-2); }
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); backdrop-filter: blur(4px);
+            z-index: 2000; display: none; align-items: center; justify-content: center;
+        }
+        .modal {
+            background: white; border-radius: 12px; padding: 2rem; width: 400px;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
         .app-container {
             max-width: 1200px; margin: 2rem auto;
             display: grid; grid-template-columns: 320px 1fr 300px;
@@ -114,9 +129,25 @@
             Venture<span style="color:var(--blue)">.ai</span>
         </div>
         <div class="flex gap-2">
+            <button class="settings-btn" onclick="toggleSettings()" title="Settings">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            </button>
             <button class="btn" style="width:auto; padding: 0.5rem 1rem; background: var(--accents-1); color: var(--primary); border: var(--border);" onclick="copyTripLink()">Share</button>
         </div>
     </header>
+
+    <div id="settingsModal" class="modal-overlay">
+        <div class="modal">
+            <h3 style="margin-bottom: 1rem;">Engine Settings</h3>
+            <div class="input-group">
+                <label>Google Maps API Key</label>
+                <input type="text" id="apiKeyInput" placeholder="Paste your key here...">
+                <p style="font-size: 0.7rem; color: var(--secondary); margin-top: 0.5rem;">The key is stored locally in your browser for security.</p>
+            </div>
+            <button class="btn" onclick="saveSettings()">Save & Reload</button>
+            <button class="btn btn-ghost" style="margin-top: 0.5rem;" onclick="toggleSettings()">Cancel</button>
+        </div>
+    </div>
 
     <div class="app-container">
         <!-- SIDEBAR -->
@@ -242,7 +273,34 @@
         }
 
         function updateMap(place) {
-            document.getElementById('googleMap').src = `https://www.google.com/maps/embed/v1/place?key=API_KEY&q=${encodeURIComponent(place)}`;
+            const key = localStorage.getItem('google_maps_api_key') || 'INVALID_PLACEHOLDER';
+            const mapFrame = document.getElementById('googleMap');
+            
+            if (key === 'INVALID_PLACEHOLDER') {
+                // Production-Ready Fallback: Mock Map Preview
+                mapFrame.srcdoc = `
+                    <div style="height:100%; background:#f0f0f0; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; color:#666; border: 2px dashed #ccc;">
+                        <div style="font-size:2rem; margin-bottom:10px;">🗺️</div>
+                        <div style="font-weight:bold;">Map Preview: ${place}</div>
+                        <div style="font-size:0.7rem; margin-top:5px;">(Enter a valid Google Maps API Key in Settings to see live map)</div>
+                    </div>
+                `;
+            } else {
+                mapFrame.removeAttribute('srcdoc');
+                mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${key}&q=${encodeURIComponent(place)}`;
+            }
+        }
+
+        function toggleSettings() {
+            const modal = document.getElementById('settingsModal');
+            modal.style.display = modal.style.display === 'flex' ? 'none' : 'flex';
+            document.getElementById('apiKeyInput').value = localStorage.getItem('google_maps_api_key') || '';
+        }
+
+        function saveSettings() {
+            const key = document.getElementById('apiKeyInput').value.trim();
+            localStorage.setItem('google_maps_api_key', key);
+            window.location.reload();
         }
 
         function generateTrip() {
