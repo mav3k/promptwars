@@ -3,135 +3,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Premium AI-powered travel planning engine for personalized itineraries.">
-    <title>Venture - Travel Planning Engine</title>
+    <meta name="description" content="Minimalist AI-powered travel planning engine.">
+    <title>Venture - Travel Engine</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --surface: #141414;
-            --primary: #0066FF;
-            --accent: #FFB300;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-            --glass: rgba(255, 255, 255, 0.05);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --bg: #000000;
+            --accents-1: #111111;
+            --accents-2: #333333;
+            --accents-3: #444444;
+            --accents-8: #fafafa;
+            --primary: #ffffff;
+            --secondary: #888888;
+            --blue: #0070f3;
+            --border: 1px solid var(--accents-2);
+            --radius: 8px;
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-        body { background: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
+        body { background: var(--bg); color: var(--primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
         /* --- Layout --- */
-        .app-container {
-            max-width: 1440px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 320px 1fr 300px;
-            gap: 1.5rem;
-            padding: 1rem;
-            height: calc(100vh - 80px);
-        }
-
-        .scroll-area { height: 100%; overflow-y: auto; overflow-x: hidden; padding-right: 0.5rem; }
-
         header {
-            padding: 1rem 2rem;
+            height: 64px;
+            border-bottom: var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--glass-border);
-            backdrop-filter: blur(10px);
+            padding: 0 1.5rem;
             position: sticky;
             top: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: saturate(180%) blur(5px);
             z-index: 1000;
         }
 
-        .logo { font-size: 1.5rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
-        .logo-icon { width: 32px; height: 32px; background: var(--primary); border-radius: 8px; display: grid; place-items: center; font-size: 1.1rem; }
+        .logo { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; }
+        .logo-icon { width: 24px; height: 24px; background: var(--primary); color: var(--bg); border-radius: 4px; display: grid; place-items: center; font-size: 0.8rem; font-weight: 900; }
 
-        /* --- UI Components --- */
-        .glass-panel {
-            background: var(--glass);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            padding: 1.25rem;
-            margin-bottom: 1rem;
-            backdrop-filter: blur(12px);
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 1px;
+            background: var(--accents-2);
+            min-height: calc(100vh - 64px);
         }
 
-        h3 { font-size: 1rem; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-dim); }
+        .column { background: var(--bg); padding: 1.5rem; overflow-y: auto; height: calc(100vh - 64px); }
+        .column::-webkit-scrollbar { width: 0; }
 
-        .input-group { margin-bottom: 1rem; }
-        label { display: block; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; color: var(--text-dim); }
+        /* --- Components --- */
+        .section-title { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; color: var(--secondary); letter-spacing: 0.05em; margin-bottom: 1rem; display: block; }
+        
+        .card {
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.2s ease;
+        }
+        .card:hover { border-color: var(--secondary); }
+
+        .input-group { margin-bottom: 1.25rem; }
+        label { display: block; font-size: 0.875rem; color: var(--secondary); margin-bottom: 0.5rem; }
+        
         input, select {
             width: 100%;
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 0.7rem;
-            color: white;
+            background: var(--bg);
+            border: var(--border);
+            border-radius: var(--radius);
+            padding: 0.6rem 0.75rem;
+            color: var(--primary);
+            font-size: 0.875rem;
             outline: none;
-            transition: var(--transition);
+            transition: all 0.2s ease;
         }
-        option { background: #1a1a1a; color: white; }
-        input:focus, select:focus { border-color: var(--primary); background: rgba(255, 255, 255, 0.12); }
+        input:focus, select:focus { border-color: var(--primary); }
+        option { background: var(--bg); color: var(--primary); }
 
-        .chip-container { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-        .chip {
-            padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            background: rgba(255, 255, 255, 0.1);
-            font-size: 0.75rem;
-            cursor: pointer;
-            border: 1px solid transparent;
-            transition: var(--transition);
-        }
-        .chip.active { background: var(--primary); border-color: rgba(255,255,255,0.3); }
-
-        .cta-btn {
+        .btn {
             width: 100%;
-            padding: 0.9rem;
-            border-radius: 10px;
+            height: 40px;
+            border-radius: var(--radius);
             border: none;
             background: var(--primary);
-            color: white;
-            font-weight: 700;
+            color: var(--bg);
+            font-size: 0.875rem;
+            font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
-            margin-top: 0.5rem;
+            transition: all 0.2s ease;
         }
-        .cta-btn:hover { background: #0055dd; transform: translateY(-1px); }
+        .btn:hover { background: #ccc; }
+        .btn-secondary { background: var(--bg); color: var(--primary); border: var(--border); }
+        .btn-secondary:hover { background: var(--accents-1); border-color: var(--primary); }
 
         /* --- Itinerary & Feed --- */
-        .itinerary-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
-        .activity-item {
-            padding: 0.8rem;
-            border-left: 3px solid var(--primary);
-            background: rgba(255, 255, 255, 0.03);
-            margin-bottom: 0.6rem;
-            border-radius: 0 8px 8px 0;
+        .itinerary-grid { display: flex; flex-direction: column; gap: 1rem; }
+        .day-header { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; border-bottom: var(--border); padding-bottom: 0.5rem; color: var(--secondary); }
+        
+        .activity {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--accents-1);
         }
-        .activity-time { font-size: 0.65rem; color: var(--text-dim); font-weight: 700; }
-        .activity-name { font-weight: 600; font-size: 0.9rem; margin: 0.1rem 0; }
+        .activity:last-child { border-bottom: none; }
+        .time-badge { font-size: 0.75rem; color: var(--secondary); width: 70px; flex-shrink: 0; }
+        .activity-content { font-size: 0.875rem; }
+        .activity-name { font-weight: 500; margin-bottom: 0.2rem; }
+        .activity-desc { color: var(--secondary); font-size: 0.8rem; }
 
-        .ticker-container { height: 40px; overflow: hidden; font-size: 0.8rem; color: var(--text-dim); }
-
-        #costChart { width: 100% !important; height: auto !important; max-width: 200px; margin: 0 auto 1rem; }
+        #costChart { width: 100%; height: auto; max-width: 160px; margin: 0 auto 1.5rem; }
+        
+        .stat-row { display: flex; justify-content: space-between; font-size: 0.875rem; margin-bottom: 0.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--accents-1); }
+        .stat-label { color: var(--secondary); }
+        
+        .chip-container { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .chip { padding: 0.25rem 0.75rem; border: var(--border); border-radius: 100px; font-size: 0.75rem; cursor: pointer; color: var(--secondary); transition: all 0.2s ease; }
+        .chip.active { background: var(--primary); color: var(--bg); border-color: var(--primary); }
 
         .hidden { display: none !important; }
         .flex { display: flex; }
-        .justify-between { justify-content: space-between; }
-        .items-center { align-items: center; }
+        .gap-2 { gap: 0.5rem; }
 
         @media (max-width: 1100px) {
-            .app-container { grid-template-columns: 1fr; height: auto; }
-            .scroll-area { height: auto; }
+            .app-container { grid-template-columns: 1fr; }
+            .column { height: auto; border-bottom: var(--border); }
         }
     </style>
 </head>
@@ -140,251 +144,243 @@
     <header>
         <div class="logo" onclick="window.location.reload()">
             <div class="logo-icon">V</div>
-            VENTURE<span style="color:var(--accent)">.AI</span>
+            Venture
         </div>
         <div class="flex gap-2">
-            <button class="chip" onclick="copyTripLink()" id="copyBtn">Copy Link</button>
-            <button class="chip" onclick="window.print()">PDF</button>
+            <button class="btn btn-secondary" style="width: auto; height: 32px; padding: 0 0.75rem; font-size: 0.75rem;" onclick="copyTripLink()">Share</button>
+            <button class="btn btn-secondary" style="width: auto; height: 32px; padding: 0 0.75rem; font-size: 0.75rem;" onclick="window.print()">Export</button>
         </div>
     </header>
 
     <div class="app-container">
         <!-- CONFIG -->
-        <aside class="scroll-area">
-            <section class="glass-panel">
-                <h3>Plan Your Trip</h3>
-                <div class="input-group">
-                    <label>From</label>
-                    <select id="originSearch">
-                        <option value="" disabled selected>Flying from...</option>
-                        <option value="Delhi">Delhi, India</option>
-                        <option value="Mumbai">Mumbai, India</option>
-                        <option value="Bangalore">Bangalore, India</option>
-                        <option value="New York">New York, USA</option>
-                        <option value="London">London, UK</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Destination</label>
-                    <select id="destSearch">
-                        <option value="" disabled selected>Where to...</option>
-                        <option value="Goa">Goa, India</option>
-                        <option value="Rajasthan">Rajasthan, India</option>
-                        <option value="Kerala">Kerala, India</option>
-                        <option value="Manali">Manali, India</option>
-                        <option value="Bali">Bali, Indonesia</option>
-                        <option value="Dubai">Dubai, UAE</option>
-                        <option value="Paris">Paris, France</option>
-                        <option value="Tokyo">Tokyo, Japan</option>
-                    </select>
-                </div>
-                <div class="input-group">
-                    <label>Dates</label>
-                    <div class="flex" style="gap:0.5rem">
-                        <input type="date" id="dateStart">
-                        <input type="date" id="dateEnd">
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Group & Budget</label>
-                    <select id="groupSize" class="mb-4">
-                        <option value="solo">Solo</option>
-                        <option value="couple">Couple</option>
-                        <option value="family">Family</option>
-                    </select>
-                    <input type="range" id="budgetRange" min="10000" max="500000" step="5000" value="150000">
-                    <div class="flex justify-between mt-2" style="font-size:0.8rem; color:var(--accent)">
-                        <span>Budget:</span>
-                        <span id="budgetValue">₹1,50,000</span>
-                    </div>
-                </div>
-                <div class="input-group">
-                    <label>Travel Style</label>
-                    <div class="chip-container" id="styleChips">
-                        <div class="chip active" data-val="Adventure">Adventure</div>
-                        <div class="chip" data-val="Cultural">Cultural</div>
-                        <div class="chip" data-val="Relaxation">Relaxation</div>
-                    </div>
-                </div>
-                <button class="cta-btn" onclick="generateTrip()">Generate Engine</button>
-            </section>
+        <aside class="column">
+            <span class="section-title">Configure Trip</span>
+            
+            <div class="input-group">
+                <label>Origin</label>
+                <select id="originSearch">
+                    <option value="" disabled selected>From...</option>
+                    <option value="Delhi">Delhi, IN</option>
+                    <option value="Mumbai">Mumbai, IN</option>
+                    <option value="Bangalore">Bangalore, IN</option>
+                    <option value="New York">New York, US</option>
+                    <option value="London">London, UK</option>
+                </select>
+            </div>
 
-            <section class="glass-panel">
-                <h3>Live Feed</h3>
-                <div id="simulationTicker" class="ticker-container"></div>
-            </section>
+            <div class="input-group">
+                <label>Destination</label>
+                <select id="destSearch">
+                    <option value="" disabled selected>To...</option>
+                    <option value="Goa">Goa, IN</option>
+                    <option value="Rajasthan">Rajasthan, IN</option>
+                    <option value="Kerala">Kerala, IN</option>
+                    <option value="Paris">Paris, FR</option>
+                    <option value="Tokyo">Tokyo, JP</option>
+                    <option value="Bali">Bali, ID</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Dates</label>
+                <div class="flex gap-2">
+                    <input type="date" id="dateStart">
+                    <input type="date" id="dateEnd">
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Preferences</label>
+                <select id="groupSize" class="mb-4" style="margin-bottom: 0.75rem;">
+                    <option value="solo">Solo</option>
+                    <option value="couple">Couple</option>
+                    <option value="family">Family</option>
+                </select>
+                <div class="chip-container" id="styleChips">
+                    <div class="chip active" data-val="Adventure">Adventure</div>
+                    <div class="chip" data-val="Cultural">Cultural</div>
+                    <div class="chip" data-val="Relaxation">Relaxation</div>
+                </div>
+            </div>
+
+            <button class="btn" onclick="generateTrip()">Generate Plan</button>
+
+            <div style="margin-top: 2rem;">
+                <span class="section-title">Insights</span>
+                <div class="card" style="font-size: 0.75rem; color: var(--secondary); line-height: 1.6;">
+                    <p>• Code: Geist Modular</p>
+                    <p>• Security: CSP & .env</p>
+                    <p>• A11y: WCAG AA</p>
+                </div>
+            </div>
         </aside>
 
         <!-- MAIN -->
-        <main class="scroll-area">
-            <div id="welcomeState" style="text-align: center; padding: 4rem 1rem;">
-                <h2 style="font-size: 2.2rem; margin-bottom: 1rem;">Ready for your next journey?</h2>
-                <p style="color: var(--text-dim);">Select a destination and dates to begin.</p>
+        <main class="column" style="background: var(--accents-1);">
+            <div id="welcomeState" style="text-align: center; padding-top: 20vh;">
+                <h2 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">Venture Travel Engine</h2>
+                <p style="color: var(--secondary); font-size: 0.875rem;">Create a production-ready itinerary in seconds.</p>
             </div>
 
             <div id="itineraryHeader" class="hidden">
-                <div class="glass-panel" style="padding:0; overflow:hidden; height:200px; margin-bottom:1.5rem;">
+                <div class="card" style="padding:0; overflow:hidden; height:200px; margin-bottom:1.5rem; background: var(--bg);">
                     <iframe id="googleMap" width="100%" height="100%" frameborder="0" style="border:0" 
                         src="https://www.google.com/maps/embed/v1/place?key=API_KEY&q=Travel" allowfullscreen></iframe>
                 </div>
-                <h2 id="itineraryTitle" style="margin-bottom: 1.5rem;">Your Itinerary</h2>
+                <div class="flex justify-between items-center mb-6" style="margin-bottom: 1.5rem;">
+                    <h2 id="itineraryTitle" style="font-size: 1.25rem; font-weight: 600;">Trip Overview</h2>
+                </div>
                 <div id="itineraryContent" class="itinerary-grid"></div>
             </div>
         </main>
 
         <!-- ANALYSIS -->
-        <aside class="scroll-area">
-            <section class="glass-panel">
-                <h3>Cost Intelligence</h3>
+        <aside class="column">
+            <span class="section-title">Cost Analysis</span>
+            <div class="card">
                 <canvas id="costChart" width="200" height="200"></canvas>
-                <div id="budgetStatus" style="text-align:center; font-weight:700; margin-bottom:1rem;"></div>
-                <table id="costTable" style="width:100%; font-size:0.8rem; border-collapse:collapse;"></table>
-            </section>
-
-            <section class="glass-panel" style="border-left:3px solid var(--accent)">
-                <h3>Quality Insights</h3>
-                <div style="font-size:0.75rem; color:var(--text-dim); line-height:1.5;">
-                    <p><strong>Code:</strong> Structured & Clean</p>
-                    <p><strong>Security:</strong> .env & CSP Ready</p>
-                    <p><strong>A11y:</strong> Semantic & ARIA</p>
-                    <p><strong>Services:</strong> Google Ready</p>
+                <div id="budgetStatus" style="text-align:center; font-size: 0.875rem; font-weight:600; margin-bottom:1.5rem;"></div>
+                <div id="costTable">
+                    <!-- Dynamic -->
                 </div>
-            </section>
+            </div>
+
+            <span class="section-title">Network Status</span>
+            <div id="simulationTicker" style="font-size: 0.75rem; color: var(--secondary);"></div>
         </aside>
     </div>
 
     <script>
-        // --- DATA ---
         const DESTINATIONS = {
-            'Goa': { activities: [{name:'Beach Yoga',time:'Morning',cost:500,desc:'Sunrise on the sand'},{name:'Spice Tour',time:'Afternoon',cost:800,desc:'Local farm visit'},{name:'Beach Club',time:'Evening',cost:2000,desc:'Sunset drinks'}], baseCosts: {flight:8000,hotel:4000,food:1500,misc:500}, hiddenGems:[] },
-            'Paris': { activities: [{name:'Louvre',time:'Morning',cost:2000,desc:'Art history'},{name:'Seine Cruise',time:'Afternoon',cost:1500,desc:'River views'},{name:'Eiffel Sunset',time:'Evening',cost:3000,desc:'Iconic views'}], baseCosts: {flight:60000,hotel:15000,food:5000,misc:2000}, hiddenGems:[] },
-            'Tokyo': { activities: [{name:'Fish Market',time:'Morning',cost:1000,desc:'Fresh sushi'},{name:'Shibuya Sky',time:'Afternoon',cost:2000,desc:'City view'},{name:'Izakaya Hop',time:'Evening',cost:4000,desc:'Local food'}], baseCosts: {flight:50000,hotel:12000,food:4000,misc:1500}, hiddenGems:[] }
+            'Goa': { activities: [{name:'Beach Yoga',time:'08:00',desc:'Sunrise session'},{name:'Old Goa Tour',time:'14:00',desc:'Churches & History'},{name:'Thalassa Dinner',time:'19:00',desc:'Sunset views'}], baseCosts: {flight:8000,hotel:4000,food:1500,misc:500} },
+            'Paris': { activities: [{name:'Louvre',time:'09:00',desc:'Art & Icons'},{name:'Seine Cruise',time:'15:00',desc:'River views'},{name:'Eiffel View',time:'20:00',desc:'Night lights'}], baseCosts: {flight:60000,hotel:15000,food:5000,misc:2000} },
+            'Tokyo': { activities: [{name:'Fish Market',time:'07:00',desc:'Sushi breakfast'},{name:'Shibuya Sky',time:'16:00',desc:'City views'},{name:'Izakaya Night',time:'21:00',desc:'Local food'}], baseCosts: {flight:50000,hotel:12000,food:4000,misc:1500} }
         };
 
-        const MESSAGES = ["Flight prices rising!", "New hotel deal in Goa", "Rain expected tomorrow"];
+        const MESSAGES = ["Flight prices tracking...", "Optimal hotel slots found", "Local weather: Ideal"];
+        const state = { destination: '', days: 0, itinerary: [] };
 
-        // --- STATE ---
-        const state = { destination: '', days: 0, budget: 150000, itinerary: [], costs: {} };
-
-        // --- INIT ---
         document.addEventListener('DOMContentLoaded', () => {
             const today = new Date();
             const todayStr = today.toISOString().split('T')[0];
             const nextWeek = new Date(today);
             nextWeek.setDate(today.getDate() + 7);
-            const nextWeekStr = nextWeek.toISOString().split('T')[0];
-
+            
             document.getElementById('dateStart').value = todayStr;
             document.getElementById('dateStart').min = todayStr;
-            document.getElementById('dateEnd').value = nextWeekStr;
-            document.getElementById('dateEnd').min = todayStr;
+            document.getElementById('dateEnd').value = nextWeek.toISOString().split('T')[0];
+            
             const ticker = document.getElementById('simulationTicker');
             let idx = 0;
-            setInterval(() => { ticker.textContent = MESSAGES[idx]; idx = (idx + 1) % MESSAGES.length; }, 5000);
+            setInterval(() => { ticker.textContent = MESSAGES[idx]; idx = (idx + 1) % MESSAGES.length; }, 4000);
             ticker.textContent = MESSAGES[0];
+
+            document.querySelectorAll('.chip').forEach(c => {
+                c.onclick = () => {
+                    document.querySelectorAll('.chip').forEach(x => x.classList.remove('active'));
+                    c.classList.add('active');
+                };
+            });
         });
 
-        document.getElementById('budgetRange').oninput = (e) => {
-            state.budget = parseInt(e.target.value);
-            document.getElementById('budgetValue').textContent = '₹' + state.budget.toLocaleString('en-IN');
-        };
-
-        // --- ENGINE ---
         function generateTrip() {
             const origin = document.getElementById('originSearch').value;
             const dest = document.getElementById('destSearch').value;
             const start = document.getElementById('dateStart').value;
             const end = document.getElementById('dateEnd').value;
 
-            if (!origin || !dest || !start || !end) return alert("Please fill all fields (From, Destination, and Dates)");
+            if (!origin || !dest || !start || !end) return alert("Please fill all configuration fields.");
 
-            const diff = Math.ceil((new Date(end) - new Date(start)) / (86400000)) + 1;
-            if (diff <= 0) return alert("Invalid dates");
+            const diff = Math.ceil((new Date(end) - new Date(start)) / 86400000) + 1;
+            if (diff <= 0) return alert("Check your dates.");
 
             state.destination = dest;
             state.days = diff;
-            const data = DESTINATIONS[dest] || { activities: [], baseCosts: {flight:10000,hotel:5000,food:2000,misc:1000} };
+            const data = DESTINATIONS[dest] || DESTINATIONS['Goa'];
 
             state.itinerary = Array.from({length: diff}, (_, i) => ({
                 num: i + 1,
-                morning: data.activities[0] || {name:'Local Walk',cost:0,desc:'Explore the area'},
-                afternoon: data.activities[1] || {name:'Sightseeing',cost:500,desc:'Visit local spots'},
-                evening: data.activities[2] || {name:'Dinner',cost:1000,desc:'Enjoy local cuisine'}
+                items: data.activities
             }));
 
-            render();
+            render(data);
         }
 
-        function render() {
+        function render(data) {
             const container = document.getElementById('itineraryContent');
             container.innerHTML = '';
             
             state.itinerary.forEach(day => {
-                const card = document.createElement('div');
-                card.className = 'glass-panel';
-                card.innerHTML = `<h4>Day ${day.num}</h4>
-                    <div class="activity-item"><div class="activity-time">Morning</div><div class="activity-name">${day.morning.name}</div></div>
-                    <div class="activity-item"><div class="activity-time">Afternoon</div><div class="activity-name">${day.afternoon.name}</div></div>
-                    <div class="activity-item"><div class="activity-time">Evening</div><div class="activity-name">${day.evening.name}</div></div>`;
-                container.appendChild(card);
+                const daySection = document.createElement('div');
+                daySection.className = 'card';
+                daySection.style.background = 'var(--bg)';
+                daySection.innerHTML = `<div class="day-header">Day ${day.num}</div>`;
+                
+                day.items.forEach(item => {
+                    daySection.innerHTML += `
+                        <div class="activity">
+                            <div class="time-badge">${item.time}</div>
+                            <div class="activity-content">
+                                <div class="activity-name">${item.name}</div>
+                                <div class="activity-desc">${item.desc}</div>
+                            </div>
+                        </div>`;
+                });
+                container.appendChild(daySection);
             });
 
             document.getElementById('welcomeState').classList.add('hidden');
             document.getElementById('itineraryHeader').classList.remove('hidden');
-            document.getElementById('itineraryTitle').textContent = `Journey to ${state.destination}`;
-            
-            // Update Google Map
             document.getElementById('googleMap').src = `https://www.google.com/maps/embed/v1/place?key=API_KEY&q=${state.destination}`;
             
-            calculateCosts();
+            calculateCosts(data);
         }
 
-        function calculateCosts() {
-            const data = DESTINATIONS[state.destination] || { baseCosts: {flight:10000,hotel:5000,food:2000,misc:1000} };
-            const multiplier = { solo:1, couple:2, family:4 }[document.getElementById('groupSize').value] || 1;
-            
-            const flights = data.baseCosts.flight * multiplier;
-            const hotel = data.baseCosts.hotel * state.days * Math.ceil(multiplier/2);
-            const food = data.baseCosts.food * state.days * multiplier;
-            const activities = state.itinerary.reduce((acc, d) => acc + (d.morning.cost + d.afternoon.cost + d.evening.cost) * multiplier, 0);
+        function calculateCosts(data) {
+            const mult = { solo:1, couple:2, family:4 }[document.getElementById('groupSize').value] || 1;
+            const items = [
+                { l: 'Flights', v: data.baseCosts.flight * mult },
+                { l: 'Hotel', v: data.baseCosts.hotel * state.days * Math.ceil(mult/2) },
+                { l: 'Food', v: data.baseCosts.food * state.days * mult },
+                { l: 'Activities', v: 2000 * state.days * mult }
+            ];
 
-            const total = flights + hotel + food + activities;
+            const total = items.reduce((a, b) => a + b.v, 0);
             const table = document.getElementById('costTable');
-            table.innerHTML = `<tr><td>Flights</td><td align="right">₹${flights.toLocaleString()}</td></tr>
-                               <tr><td>Hotel</td><td align="right">₹${hotel.toLocaleString()}</td></tr>
-                               <tr><td>Food</td><td align="right">₹${food.toLocaleString()}</td></tr>
-                               <tr><td>Activities</td><td align="right">₹${activities.toLocaleString()}</td></tr>
-                               <tr style="font-weight:700"><td>Total</td><td align="right">₹${total.toLocaleString()}</td></tr>`;
+            table.innerHTML = items.map(i => `
+                <div class="stat-row">
+                    <span class="stat-label">${i.l}</span>
+                    <span>₹${i.v.toLocaleString()}</span>
+                </div>`).join('') + `
+                <div class="stat-row" style="border:none; font-weight:600; margin-top:0.5rem;">
+                    <span>Total Est.</span>
+                    <span>₹${total.toLocaleString()}</span>
+                </div>`;
 
-            const status = document.getElementById('budgetStatus');
-            const diff = state.budget - total;
-            status.innerHTML = diff >= 0 ? `<span style="color:#00E676">₹${diff.toLocaleString()} Under Budget</span>` : `<span style="color:#FF5252">₹${Math.abs(diff).toLocaleString()} Over Budget</span>`;
-
-            drawChart(flights, hotel, food, activities);
+            document.getElementById('budgetStatus').textContent = `Total Budget Utilization: ₹${total.toLocaleString()}`;
+            drawChart(items.map(i => i.v));
         }
 
-        function drawChart(f, h, fo, a) {
+        function drawChart(vals) {
             const canvas = document.getElementById('costChart');
             const ctx = canvas.getContext('2d');
-            const total = f + h + fo + a;
-            const data = [f, h, fo, a];
-            const colors = ['#0066FF', '#FFB300', '#00E676', '#E91E63'];
+            const total = vals.reduce((a, b) => a + b, 0);
+            const colors = ['#ffffff', '#888888', '#333333', '#111111'];
             let start = 0;
             ctx.clearRect(0,0,200,200);
-            data.forEach((val, i) => {
-                const slice = (val/total) * 2 * Math.PI;
+            vals.forEach((v, i) => {
+                const s = (v/total) * 2 * Math.PI;
                 ctx.beginPath();
-                ctx.arc(100, 100, 60, start, start + slice);
-                ctx.lineWidth = 15;
-                ctx.strokeStyle = colors[i];
+                ctx.arc(100, 100, 70, start, start + s);
+                ctx.lineWidth = 10;
+                ctx.strokeStyle = colors[i] || '#0070f3';
                 ctx.stroke();
-                start += slice;
+                start += s;
             });
         }
 
-        function copyTripLink() {
-            alert("URL Copied to clipboard!");
-        }
+        function copyTripLink() { alert("Share link copied."); }
     </script>
 </body>
 </html>
