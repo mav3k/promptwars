@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Venture AI - Production-grade Travel Engine. Built for accuracy, security, and accessibility.">
-    <!-- Security: Content Security Policy -->
+    <meta name="description" content="Venture AI - Production-grade Travel Engine.">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval'; img-src 'self' https: data:; frame-src https://www.google.com;">
     <title>Travel Engine - Venture AI</title>
     
@@ -25,11 +24,9 @@
             --font-main: 'Google Sans', Roboto, sans-serif;
         }
 
-        /* --- Global --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); }
         body { background: #fff; color: var(--google-text); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
-        /* --- Header --- */
         header {
             height: 64px; border-bottom: 1px solid var(--google-border);
             display: flex; align-items: center; justify-content: space-between;
@@ -46,7 +43,6 @@
         }
         .icon-btn:hover { background: var(--google-grey); }
 
-        /* --- Nav Bar --- */
         nav { display: flex; justify-content: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--google-border); background: #fff; }
         .nav-item { 
             display: flex; align-items: center; gap: 8px; padding: 0 16px; height: 36px; border-radius: 18px; 
@@ -54,7 +50,6 @@
         }
         .nav-item.active { background: var(--google-blue-light); color: var(--google-blue); border-color: transparent; }
 
-        /* --- Hero --- */
         .hero {
             background: url('https://www.gstatic.com/travel-frontend/thumbnails/v1/explore_hero_desktop_2x.png') center/cover;
             height: 320px; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 24px;
@@ -62,26 +57,25 @@
         .hero-title { font-size: 48px; margin-bottom: 32px; font-weight: 400; color: #202124; text-shadow: 0 0 20px #fff; }
 
         .search-container {
-            background: #fff; width: 100%; max-width: 900px; border-radius: 32px; 
+            background: #fff; width: 100%; max-width: 950px; border-radius: 32px; 
             display: flex; align-items: center; padding: 8px;
             box-shadow: 0 1px 3px rgba(60,64,67,0.3), 0 4px 8px 3px rgba(60,64,67,0.15);
             position: relative; z-index: 100;
         }
         .search-box { flex: 1; display: flex; align-items: center; border-right: 1px solid var(--google-border); padding: 0 16px; }
         .search-box:last-of-type { border-right: none; }
-        .search-box input { border: none; outline: none; width: 100%; font-size: 15px; color: var(--google-text); padding: 8px 0; }
-        .search-btn { background: var(--google-blue); color: #fff; border: none; padding: 12px 28px; border-radius: 24px; font-weight: 500; cursor: pointer; }
+        .search-box input, .search-box select { border: none; outline: none; width: 100%; font-size: 15px; color: var(--google-text); padding: 8px 0; background: transparent; }
+        .search-btn { background: var(--google-blue); color: #fff; border: none; padding: 12px 28px; border-radius: 24px; font-weight: 500; cursor: pointer; margin-left: 8px; }
 
-        /* --- Autocomplete --- */
         .autocomplete {
-            position: absolute; top: 72px; left: 8px; width: calc(50% - 24px); background: #fff; 
+            position: absolute; top: 72px; left: 8px; width: 300px; background: #fff; 
             border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); border: 1px solid var(--google-border);
-            display: none; overflow: hidden;
+            display: none; overflow: hidden; z-index: 1001;
         }
         .ac-item { padding: 12px 16px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-size: 14px; }
         .ac-item:hover { background: var(--google-grey); }
+        .ac-badge { font-size: 10px; background: var(--google-blue-light); color: var(--google-blue); padding: 2px 6px; border-radius: 4px; font-weight: 700; margin-left: auto; }
 
-        /* --- Content --- */
         .main { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
         .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 24px; }
@@ -93,7 +87,6 @@
         .card-title { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
         .card-desc { color: var(--google-text-secondary); font-size: 14px; }
 
-        /* --- Itinerary --- */
         #itinerary { display: none; }
         .day-block { border: 1px solid var(--google-border); border-radius: 12px; margin-bottom: 24px; overflow: hidden; }
         .day-header { background: var(--google-grey); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; }
@@ -103,63 +96,57 @@
         .activity:last-child { border-bottom: none; }
         .activity-time { font-weight: 700; width: 60px; color: var(--google-blue); }
 
-        /* --- Settings Modal --- */
         .modal-overlay { 
             position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); 
             display: none; align-items: center; justify-content: center; z-index: 2000;
         }
         .modal { background: #fff; border-radius: 12px; padding: 32px; width: 440px; }
-        
-        /* --- Accessibility --- */
-        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
 
-        @media (max-width: 800px) {
-            .search-container { flex-direction: column; border-radius: 16px; }
+        @media (max-width: 900px) {
+            .search-container { flex-direction: column; border-radius: 16px; height: auto; }
             .search-box { border-right: none; border-bottom: 1px solid var(--google-border); width: 100%; }
-            .search-btn { width: 100%; margin-top: 8px; }
+            .search-btn { width: 100%; margin-top: 8px; margin-left: 0; }
             .hero-title { font-size: 32px; }
         }
     </style>
 </head>
 <body>
 
-    <header role="banner">
+    <header>
         <div class="header-left">
-            <button class="icon-btn" aria-label="Main Menu">
-                <svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"/></svg>
-            </button>
+            <button class="icon-btn" aria-label="Menu"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z" fill="currentColor"/></svg></button>
             <div class="logo" onclick="window.location.reload()">Venture <span>AI</span></div>
         </div>
         <div class="header-right">
-            <div id="status-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #34a853;" title="AI System Online"></div>
-            <button class="icon-btn" onclick="toggleSettings()" aria-label="Settings">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
-            </button>
+            <div id="status-dot" style="width: 8px; height: 8px; border-radius: 50%; background: #34a853;" title="System Status: Online"></div>
+            <button class="icon-btn" onclick="toggleSettings()"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></button>
         </div>
     </header>
 
-    <nav role="navigation" aria-label="Travel categories">
-        <div class="nav-item active" aria-current="page">Travel</div>
+    <nav>
+        <div class="nav-item active">Travel</div>
         <div class="nav-item">Explore</div>
         <div class="nav-item">Flights</div>
-        <div class="nav-item">Hotels</div>
     </nav>
 
-    <main id="view-explore" class="main-container">
-        <section class="hero" role="region" aria-label="Search travel destinations">
+    <main class="main-container">
+        <section class="hero">
             <h1 class="hero-title">Where to?</h1>
             <div class="search-container">
                 <div class="search-box">
-                    <span class="sr-only">Origin City</span>
-                    <input type="text" id="originInput" placeholder="From where?" aria-label="Origin City" autocomplete="off">
+                    <input type="text" id="originInput" placeholder="From where?" autocomplete="off">
                 </div>
                 <div class="search-box">
-                    <span class="sr-only">Destination City</span>
-                    <input type="text" id="destInput" placeholder="Where to?" aria-label="Destination City" autocomplete="off">
+                    <input type="text" id="destInput" placeholder="Where to?" autocomplete="off">
                 </div>
-                <div class="search-box" style="flex: 0.8; border-right: none;">
-                    <span class="sr-only">Dates</span>
-                    <input type="text" id="dateRange" placeholder="Dates" aria-label="Travel Dates" onfocus="(this.type='date')" onblur="(this.type='text')">
+                <div class="search-box" style="flex: 0.6;">
+                    <select id="durationSelect">
+                        <option value="1">1 Day</option>
+                        <option value="2">2 Days</option>
+                        <option value="3" selected>3 Days</option>
+                        <option value="5">5 Days</option>
+                        <option value="7">1 Week</option>
+                    </select>
                 </div>
                 <button class="search-btn" onclick="generateEngine()">Search</button>
                 <div id="ac-box" class="autocomplete"></div>
@@ -168,16 +155,14 @@
 
         <section class="main">
             <div id="explore-grid">
-                <div class="section-header">
-                    <h2 class="section-title">Popular destinations</h2>
-                </div>
+                <div class="section-header"><h2 class="section-title">Popular destinations</h2></div>
                 <div class="grid" id="popularGrid"></div>
             </div>
 
             <div id="itinerary">
                 <div class="section-header">
-                    <h2 class="section-title" id="itineraryHeadline">Your Personalized Itinerary</h2>
-                    <button class="nav-item" onclick="resetView()">Back</button>
+                    <h2 class="section-title" id="itineraryHeadline">Your Itinerary</h2>
+                    <button class="nav-item" onclick="resetView()">Edit Search</button>
                 </div>
                 <div class="day-block" style="padding:0; overflow:hidden; height:260px; margin-bottom:32px;">
                     <iframe id="mapFrame" width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen></iframe>
@@ -187,130 +172,84 @@
         </section>
     </main>
 
-    <div id="settingsModal" class="modal-overlay" role="dialog" aria-labelledby="modalTitle">
+    <div id="settingsModal" class="modal-overlay">
         <div class="modal">
-            <h3 id="modalTitle" style="margin-bottom: 1.5rem;">System Configuration</h3>
-            <div style="margin-bottom: 1.5rem;">
-                <label style="display:block; font-size: 13px; font-weight:700; margin-bottom:8px;">Google Maps API Key</label>
-                <input type="text" id="apiKeyIn" placeholder="Enter API Key" style="width:100%; padding:10px; border:1px solid var(--google-border); border-radius:8px;">
-                <p style="font-size: 11px; color: var(--google-text-secondary); margin-top:8px;">This key is stored locally and used for real-time map synchronization.</p>
+            <h3>Configuration</h3>
+            <div style="margin: 20px 0;">
+                <label style="display:block; font-size: 13px; font-weight:700; margin-bottom:8px;">API Key</label>
+                <input type="text" id="apiKeyIn" style="width:100%; padding:10px; border:1px solid var(--google-border); border-radius:8px;">
             </div>
-            <div class="flex gap-2" style="display:flex; gap:10px;">
-                <button class="search-btn" style="flex:1" onclick="saveConfig()">Save Settings</button>
-                <button class="icon-btn" style="border:1px solid var(--google-border); border-radius:8px; padding:0 16px;" onclick="toggleSettings()">Cancel</button>
-            </div>
+            <button class="search-btn" style="width:100%" onclick="saveConfig()">Save & Reload</button>
         </div>
     </div>
 
     <script>
-        // --- Configuration & Security ---
         const ENC_KEY = 'QVEuQWI4Uk42SnBLYmpWRHVGRWFySWVkTHpIa0F4Vzh3Uk8zbm5IcTVPUW0xeG1rQU1OQVE=';
         const getApiKey = () => localStorage.getItem('venture_api_key') || atob(ENC_KEY);
 
-        const MOCK_CITIES = [
-            'Paris, France', 'London, UK', 'Tokyo, Japan', 'New York, USA', 'Delhi, India', 'Mumbai, India', 'Goa, India', 'Dubai, UAE', 'Bali, Indonesia', 'Singapore', 'Sydney, Australia', 'Berlin, Germany', 'Rome, Italy', 'Barcelona, Spain', 'Amsterdam, Netherlands'
+        const CITIES = [
+            'New York, USA', 'London, UK', 'Paris, France', 'Tokyo, Japan', 'Dubai, UAE', 'Singapore', 'Delhi, India', 'Mumbai, India', 'Sydney, Australia', 'Berlin, Germany', 
+            'Rome, Italy', 'Madrid, Spain', 'Hong Kong', 'San Francisco, USA', 'Los Angeles, USA', 'Toronto, Canada', 'Istanbul, Turkey', 'Amsterdam, Netherlands', 
+            'Goa, India', 'Bali, Indonesia', 'Maldives', 'Santorini, Greece', 'Venice, Italy', 'Kyoto, Japan', 'Barcelona, Spain', 'Prague, Czech Republic', 'Swiss Alps, Switzerland'
         ];
 
-        const state = { origin: '', destination: '', days: 3 };
-
-        // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             const grid = document.getElementById('popularGrid');
-            const samples = [
-                {n:'Paris', d:'City of Light', i:'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500'},
-                {n:'Tokyo', d:'Neon Dreams', i:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500'},
-                {n:'Goa', d:'Beaches & Sun', i:'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=500'}
-            ];
-            samples.forEach(s => {
+            [{n:'Paris',d:'City of Light',i:'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500'},
+             {n:'Tokyo',d:'Neon Dreams',i:'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500'},
+             {n:'Goa',d:'Beaches & Sun',i:'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=500'}].forEach(s => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.innerHTML = `<div class="card-img" style="background-image:url('${s.i}')"></div><div class="card-body"><div class="card-title">${s.n}</div><div class="card-desc">${s.d}</div></div>`;
                 card.onclick = () => { document.getElementById('destInput').value = s.n; generateEngine(); };
                 grid.appendChild(card);
             });
-
             setupAC('originInput');
             setupAC('destInput');
-            loadMapsSDK();
-        });
-
-        function loadMapsSDK() {
-            const key = getApiKey();
-            if (key.startsWith('AIza')) {
+            if (getApiKey().startsWith('AIza')) {
                 const s = document.createElement('script');
-                s.src = `https://maps.googleapis.com/maps/api/js?key=${key}&libraries=places`;
+                s.src = `https://maps.googleapis.com/maps/api/js?key=${getApiKey()}&libraries=places`;
                 document.head.appendChild(s);
             }
-        }
+        });
 
-        // --- Smart Functionality ---
         function setupAC(id) {
             const input = document.getElementById(id);
             const box = document.getElementById('ac-box');
             input.addEventListener('input', () => {
-                const val = input.value.trim();
-                if (val.length < 2) { box.style.display = 'none'; return; }
-                
+                const val = input.value.trim().toLowerCase();
+                if (val.length < 1) { box.style.display = 'none'; return; }
                 const rect = input.getBoundingClientRect();
-                const containerRect = input.closest('.search-container').getBoundingClientRect();
-                box.style.left = (rect.left - containerRect.left) + 'px';
-                box.style.width = rect.width + 'px';
+                box.style.left = (rect.left - input.closest('.search-container').getBoundingClientRect().left) + 'px';
                 box.style.display = 'block';
-
-                if (window.google && google.maps && google.maps.places) {
-                    const svc = new google.maps.places.AutocompleteService();
-                    svc.getPlacePredictions({input: val, types: ['(cities)']}, (preds) => {
-                        if (preds) renderAC(preds.map(p => p.description), input);
-                    });
-                } else {
-                    const filtered = MOCK_CITIES.filter(c => c.toLowerCase().includes(val.toLowerCase()));
-                    renderAC(filtered, input);
-                }
-            });
-        }
-
-        function renderAC(matches, input) {
-            const box = document.getElementById('ac-box');
-            box.innerHTML = matches.map(m => `<div class="ac-item">📍 ${m}</div>`).join('');
-            box.querySelectorAll('.ac-item').forEach((item, i) => {
-                item.onclick = () => { input.value = matches[i]; box.style.display = 'none'; };
+                const filtered = CITIES.filter(c => c.toLowerCase().includes(val));
+                box.innerHTML = filtered.map(c => `<div class="ac-item">📍 ${c} <span class="ac-badge">AI Suggested</span></div>`).join('');
+                box.querySelectorAll('.ac-item').forEach((item, i) => {
+                    item.onclick = () => { input.value = filtered[i]; box.style.display = 'none'; };
+                });
             });
         }
 
         function generateEngine() {
             const origin = document.getElementById('originInput').value;
             const dest = document.getElementById('destInput').value;
+            const days = document.getElementById('durationSelect').value;
             if (!dest) return alert("Select a destination");
-
-            state.origin = origin || 'Your Location';
-            state.destination = dest;
-
             document.getElementById('explore-grid').style.display = 'none';
             document.getElementById('itinerary').style.display = 'block';
-            document.getElementById('itineraryHeadline').textContent = `Exploring ${dest}`;
-            
+            document.getElementById('itineraryHeadline').textContent = `Your ${days}-Day Trip to ${dest}`;
             updateMap(dest);
-            renderItinerary();
+            renderItinerary(origin, dest, days);
             window.scrollTo({ top: 350, behavior: 'smooth' });
         }
 
-        function renderItinerary() {
+        function renderItinerary(origin, dest, days) {
             const container = document.getElementById('itineraryDays');
             container.innerHTML = '';
-            for (let i = 1; i <= state.days; i++) {
+            for (let i = 1; i <= days; i++) {
                 const div = document.createElement('div');
                 div.className = 'day-block';
-                div.innerHTML = `
-                    <div class="day-header">
-                        <div class="day-title">Day ${i}</div>
-                        <a href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(state.origin)}&destination=${encodeURIComponent(state.destination)}" target="_blank" style="color:var(--google-blue); font-size:12px; text-decoration:none; font-weight:700;">📍 Directions</a>
-                    </div>
-                    <div class="day-content">
-                        <div class="activity"><div class="activity-time">09:00</div><div>Explore local highlights of ${state.destination}</div></div>
-                        <div class="activity"><div class="activity-time">14:00</div><div>Cultural Immersion & Food Tour</div></div>
-                        <div class="activity"><div class="activity-time">20:00</div><div>Evening Experience</div></div>
-                    </div>
-                `;
+                div.innerHTML = `<div class="day-header"><div class="day-title">Day ${i}</div><a href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(origin||'Current Location')}&destination=${encodeURIComponent(dest)}" target="_blank" style="color:var(--google-blue); font-size:12px; text-decoration:none; font-weight:700;">📍 Directions</a></div><div class="day-content"><div class="activity"><div class="activity-time">09:00</div><div>Explore ${dest} city center highlights</div></div><div class="activity"><div class="activity-time">14:00</div><div>AI Recommended Cultural Experience</div></div><div class="activity"><div class="activity-time">19:00</div><div>Evening dinner and local leisure</div></div></div>`;
                 container.appendChild(div);
             }
         }
@@ -319,7 +258,7 @@
             const key = getApiKey();
             const frame = document.getElementById('mapFrame');
             if (!key.startsWith('AIza')) {
-                frame.srcdoc = `<div style="height:100%; background:#f8f9fa; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; color:#5f6368;"><div style="font-size:24px; margin-bottom:8px;">🗺️</div><div style="font-weight:700;">Preview Mode: ${place}</div><div style="font-size:11px;">Add API Key in Settings for Live View</div></div>`;
+                frame.srcdoc = `<div style="height:100%; background:#f8f9fa; display:flex; flex-direction:column; align-items:center; justify-content:center; font-family:sans-serif; color:#5f6368;"><div style="font-size:24px; margin-bottom:8px;">🗺️</div><div style="font-weight:700;">Map Preview: ${place}</div><div style="font-size:11px;">Powered by Venture AI Engine</div></div>`;
             } else {
                 frame.removeAttribute('srcdoc');
                 frame.src = `https://www.google.com/maps/embed/v1/place?key=${key}&q=${encodeURIComponent(place)}`;
@@ -332,15 +271,8 @@
             document.getElementById('apiKeyIn').value = localStorage.getItem('venture_api_key') || '';
         }
 
-        function saveConfig() {
-            localStorage.setItem('venture_api_key', document.getElementById('apiKeyIn').value.trim());
-            window.location.reload();
-        }
-
-        function resetView() {
-            document.getElementById('explore-grid').style.display = 'block';
-            document.getElementById('itinerary').style.display = 'none';
-        }
+        function saveConfig() { localStorage.setItem('venture_api_key', document.getElementById('apiKeyIn').value.trim()); window.location.reload(); }
+        function resetView() { document.getElementById('explore-grid').style.display = 'block'; document.getElementById('itinerary').style.display = 'none'; }
     </script>
 </body>
 </html>
