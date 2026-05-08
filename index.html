@@ -221,10 +221,10 @@
             <h1 class="hero-title">Where to?</h1>
             <div class="search-container">
                 <div class="search-input-wrapper">
-                    <input type="text" id="origin-input" placeholder="From where?">
+                    <input type="text" id="origin-input" placeholder="From where?" autocomplete="off">
                 </div>
                 <div class="search-input-wrapper">
-                    <input type="text" id="dest-input" placeholder="Where to?">
+                    <input type="text" id="dest-input" placeholder="Where to?" autocomplete="off">
                 </div>
                 <button class="search-btn" onclick="generatePlan()">Search</button>
                 <div id="autocomplete" class="autocomplete"></div>
@@ -253,24 +253,22 @@
         const API_KEY = atob('QVEuQWI4Uk42SnBLYmpWRHVGRWFySWVkTHpIa0F4Vzh3Uk8zbm5IcTVPUW0xeG1rQU1OQVE=');
         
         const POPULAR = [
-            { name: 'Paris', desc: 'City of Light', img: 'https://lh5.googleusercontent.com/p/AF1QipN38jC_U3YqS9X1X8X1X8X1X8X1X8X1X8X1X8X1=w408-h272-k-no' },
-            { name: 'Tokyo', desc: 'Neon Dreams', img: 'https://lh5.googleusercontent.com/p/AF1QipM-pXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' },
-            { name: 'Goa', desc: 'Beach Paradise', img: 'https://lh5.googleusercontent.com/p/AF1QipO-XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' },
-            { name: 'London', desc: 'Historic Majesty', img: 'https://lh5.googleusercontent.com/p/AF1QipL-XqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqXqX=w408-h272-k-no' }
+            { name: 'Paris', desc: 'City of Light', img: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?w=500' },
+            { name: 'Tokyo', desc: 'Neon Dreams', img: 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=500' },
+            { name: 'Goa', desc: 'Beach Paradise', img: 'https://images.unsplash.com/photo-1512343879784-a960bf40e7f2?w=500' },
+            { name: 'London', desc: 'Historic Majesty', img: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?w=500' }
         ];
 
-        const ITINERARY_DATA = {
-            'Paris': [
-                { day: 1, activities: [{time: '09:00', task: 'Eiffel Tower Tour'}, {time: '14:00', task: 'Louvre Museum'}] },
-                { day: 2, activities: [{time: '10:00', task: 'Notre Dame Cathedral'}, {time: '19:00', task: 'Seine River Cruise'}] }
-            ],
-            'Default': [
-                { day: 1, activities: [{time: '09:00', task: 'City Walk'}, {time: '14:00', task: 'Local Museum'}] },
-                { day: 2, activities: [{time: '10:00', task: 'Park Visit'}, {time: '20:00', task: 'Dinner downtown'}] }
-            ]
-        };
+        const state = { origin: '', destination: '' };
 
         function init() {
+            // Load Google Maps SDK
+            if (API_KEY.startsWith('AIza')) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${API_KEY}&libraries=places`;
+                document.head.appendChild(script);
+            }
+
             const grid = document.getElementById('dest-grid');
             POPULAR.forEach(d => {
                 const card = document.createElement('div');
@@ -288,11 +286,55 @@
                 };
                 grid.appendChild(card);
             });
+
+            setupAutocomplete('origin-input');
+            setupAutocomplete('dest-input');
+        }
+
+        function setupAutocomplete(inputId) {
+            const input = document.getElementById(inputId);
+            const acDiv = document.getElementById('autocomplete');
+
+            input.addEventListener('input', () => {
+                const val = input.value.trim();
+                acDiv.innerHTML = '';
+                if (val.length < 2) { acDiv.style.display = 'none'; return; }
+
+                const rect = input.getBoundingClientRect();
+                acDiv.style.left = (rect.left - input.closest('.search-container').getBoundingClientRect().left) + 'px';
+                acDiv.style.width = rect.width + 'px';
+                acDiv.style.display = 'block';
+
+                if (window.google && google.maps && google.maps.places) {
+                    const service = new google.maps.places.AutocompleteService();
+                    service.getPlacePredictions({ input: val, types: ['(cities)'] }, (preds) => {
+                        if (preds) renderAC(preds.map(p => p.description), input);
+                    });
+                } else {
+                    const mock = ['Paris, France', 'London, UK', 'New York, USA', 'Tokyo, Japan', 'Delhi, India', 'Mumbai, India', 'Goa, India'].filter(s => s.toLowerCase().includes(val.toLowerCase()));
+                    renderAC(mock, input);
+                }
+            });
+        }
+
+        function renderAC(matches, input) {
+            const acDiv = document.getElementById('autocomplete');
+            acDiv.innerHTML = matches.map(m => `<div class="autocomplete-item">📍 ${m}</div>`).join('');
+            acDiv.querySelectorAll('.autocomplete-item').forEach((item, i) => {
+                item.onclick = () => {
+                    input.value = matches[i];
+                    acDiv.style.display = 'none';
+                };
+            });
         }
 
         function generatePlan() {
+            const origin = document.getElementById('origin-input').value;
             const dest = document.getElementById('dest-input').value;
             if (!dest) return alert("Where to?");
+
+            state.origin = origin || 'Your Location';
+            state.destination = dest;
 
             const view = document.getElementById('itinerary-view');
             const grid = document.getElementById('dest-grid');
@@ -302,13 +344,23 @@
             view.style.display = 'block';
             content.innerHTML = '';
 
-            const days = ITINERARY_DATA[dest] || ITINERARY_DATA['Default'];
+            // Day-wise Logic
+            const days = [
+                { day: 1, activities: [{time: '09:00', task: `Explore central ${dest}`}, {time: '14:00', task: 'Local Cultural Tour'}] },
+                { day: 2, activities: [{time: '10:00', task: 'Hidden Gems discovery'}, {time: '19:00', task: 'Evening highlights'}] }
+            ];
             
             days.forEach(day => {
                 const dCard = document.createElement('div');
                 dCard.className = 'day-card';
                 dCard.innerHTML = `
-                    <div class="day-title">Day ${day.day}</div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+                        <div class="day-title">Day ${day.day}</div>
+                        <a href="https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(state.origin)}&destination=${encodeURIComponent(state.destination)}" 
+                           target="_blank" style="color:var(--google-blue); font-size:12px; text-decoration:none; font-weight:500;">
+                           📍 Get Directions
+                        </a>
+                    </div>
                     <ul class="activity-list">
                         ${day.activities.map(a => `
                             <li class="activity-item">
